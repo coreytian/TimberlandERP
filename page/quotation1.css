@@ -1,0 +1,138 @@
+.controlgroup-textinput {
+    padding-bottom: 0.24em;
+    padding-top: 0.25em;
+}
+.button-slim button{
+    padding: 0.7em;
+    line-height: 1.6;
+}
+.input-small{
+    width:60px !important;
+}
+.input-total{
+    width: 80px !important;
+}
+.input-basic{
+    width:150px !important;
+}
+.select-small{
+    width:300px !important;
+}
+#quotationForm #quoteBodySection label{
+    width: auto !important;
+}
+#quotationForm .section1 .ui-select, #quotationForm .section6 .ui-select, #quotationForm #quoteBasicDiv .ui-select{
+    width:10px;
+}
+#quotationForm .section1 .ui-btn-icon-right, #quotationForm .section6 .ui-btn-icon-right, #quotationForm #quoteBasicDiv .ui-btn-icon-right{
+    padding-right: 1.5em;
+    padding-top: 1em;
+}
+#quotationForm .section1 .ui-block-b .ui-input-text{
+    width: 80px;
+}
+#quotationForm .section6 .ui-block-a .ui-input-text{
+    width: 80px;
+}
+#quotationForm .button-slim .ui-controlgroup-controls{
+    width:100%;
+}
+.listViewTitle{
+    background-color: #FAFAFA !important;
+}
+#quotationForm h4{
+    margin: 0;
+    color: #F60
+}
+#quotationForm #quoteHeadSection h4{
+    margin-bottom:10px;
+}
+
+#quotationForm .totalDiv .button-slim{
+    width: auto !important;
+}
+#totalPriceSpan{
+    font-size: 25px;
+    font-weight: bold;
+}
+#totalPriceBox{
+    font-size: 25px;
+}
+#paymentTermsDiv label{
+    width:200px !important;
+}
+#paymentTermsDiv .ui-field-contain{
+    margin:5px 0;
+}
+#paymentTermsTitle{
+    font-size: 14pt;
+    color: #F60;
+}
+#notes {
+    height:100px !important;
+}
+
+#notesDiv label{
+    font-size: 14pt;
+    color: #F60;
+    padding-top: 29px;
+}
+
+#quotationForm #quoteBasicDiv label{
+    width: 110px !important;
+}
+#quotationForm #quoteBasicDiv .ui-field-contain{
+    margin:4px 0;
+}
+#quotationForm #quoteBasicDiv .consultantDiv .ui-input-text{
+    width:118px;
+}
+#quotationForm #quoteBasicDiv .consultantDiv input{
+    padding: 0;
+}
+#quotationForm #quoteBasicDiv{
+    border-right: solid 1px;
+    border-color: #ddd;
+    padding-right: 18px;
+}
+#quotationForm #quoteClientDiv{
+    padding-left: 28px;
+}
+#popupAddNewClient .ui-field-contain{
+    padding-top:3px;
+    padding-bottom:3px;
+}
+.buttonPopup{
+    width:100px;
+}
+#popupAddNewClient h4{
+    color: #F60;
+}
+
+#quoteClientDiv .ui-grid-a{
+    padding: 10px 0 0 0;
+}
+#quotationForm #quoteClientDiv label{
+    width: 70px !important;
+}
+.input-client{
+    width:280px !important;
+}
+#quoteClientDiv .ui-field-contain{
+    margin:4px 0;
+}
+#quoteInfoTitle, #clientInfoTitle{
+    font-size: 14pt;
+    color: #F60;
+    vertical-align: text-top;
+}
+#saveQuoteBtn, #viewQuoteBtn{
+    margin-top: -6px;
+    width: 150px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+    float:left;
+}
+#saveResult {
+    color: #009800;
+    font-weight: bold;
+}
