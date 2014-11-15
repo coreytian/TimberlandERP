@@ -13,7 +13,26 @@
 <div class="contentpanel">
 
 <div class="row">
+    <div class="col-sm-8 col-md-6">
+        <div class="panel panel-default panel-alt widget-messaging">
+            <div class="panel-heading">
+                <div class="panel-btns">
+                    <a href="" class="panel-edit"><i class="fa fa-edit"></i></a>
+                </div><!-- panel-btns -->
+                <h3 class="panel-title">开发日志</h3>
+            </div>
+            <div class="panel-body">
+                <ul>
+                    <li>
+                        <small class="pull-right">Nov 13</small>
+                        <h4 class="sender">完成Edit Quote</h4>
+                        <small>Quote编辑及保存功能已完成，地址在Quote表的每一列铅笔图案，点击进入，可以浏览Quote的各项数值，修改，点击底部的Save保存</small>
+                    </li>
 
+                </ul>
+            </div><!-- panel-body -->
+        </div><!-- panel -->
+    </div><!-- col-sm-6 -->
     <div class="col-sm-6 col-md-3">
         <div class="panel panel-success panel-stat">
             <div class="panel-heading">

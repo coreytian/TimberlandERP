@@ -60,7 +60,8 @@
             <ul class="nav nav-pills nav-stacked nav-bracket">
                 <li id="nav-dashboard"><a href="index.php"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
                 <li id="nav-quotes"><a href="quotes.php"><i class="fa fa-th-list"></i> <span>Quotes</span></a></li>
-                <li id="nav-makequotes"><a href="../page/index.php"><i class="fa fa-pencil"></i> <span>Make A Quote On iPad</span></a></li>
+                <li id="nav-makequotesPC"><a href="createQuote.php"><i class="fa fa-laptop"></i> <span>Make A Quote On PC</span></a></li>
+                <li id="nav-makequotes"><a href="../page/index.php"><i class="fa fa-tablet"></i> <span>Make A Quote On iPad</span></a></li>
             </ul>
 
 
@@ -106,4 +107,3 @@
             </div><!-- header-right -->
 
         </div><!-- headerbar -->
-

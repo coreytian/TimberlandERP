@@ -1,4 +1,4 @@
-<?php include("header.php") ?>
+<?php include("header.php") ; ?>
 <div class="pageheader">
     <h2><i class="fa fa-file-text"></i> Quotes </h2>
     <div class="breadcrumb-wrapper">
@@ -14,7 +14,7 @@
 
     <div class="panel panel-default">
         <div class="panel-body">
-
+            <a href="createQuote.php" class="btn btn-orange cancelSaveQuoteBtn" style="margin-top: 0px;"><i class="fa fa-pencil-square-o"></i> Create New Quote</a>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover" id="quotesTable">
                     <thead>

@@ -26,6 +26,7 @@ $( document ).ready(function() {
         if(diff > 0){
                 $("#reducedPriceDisplay").show();
                 $("#reducedPrice").html(diff.toFixed(2));
+                $("#basicPrice").html(calculatedTotal.toFixed(2));
         } else {
             $("#reducedPriceDisplay").hide();
         }
@@ -250,8 +251,10 @@ $( document ).ready(function() {
             $("#popupView").popup("open");
         })
     });
-    $("#saveQuoteBtn").on('click',function(e) {
+    $("#confirmSaveQuote").on('click',function(e) {
         e.preventDefault();
+
+        $('#popupConfirmSave').modal('hide');
 
         $("#saveQuoteBtn").prop("disabled",true);
         $("#saveQuoteBtn").html("Saving . . . ");
@@ -310,6 +313,13 @@ $( document ).ready(function() {
             $('#saveFailModal').modal(options);
         });
     });
+    $("#saveQuoteBtn").on('click',function(e) {
+        e.preventDefault();
+
+        $('#popupConfirmSave').modal({
+            "backdrop" : "static"
+        });
+    });
 
     /** Generic Functions   */
 
@@ -318,10 +328,11 @@ $( document ).ready(function() {
         calculatePaymentTerms();
         $("#finalTotal").displayVal(total);
 
-        var $reducedPrice = parseNumber(data.calculatedTotal) - parseNumber(total);
-        if($reducedPrice > 0 && parseNumber(total)!=0){
+        var reducedPrice = parseNumber(data.calculatedTotal) - parseNumber(total);
+        if(reducedPrice > 0 && parseNumber(total)!=0){
             $("#reducedPriceDisplay").show();
-            $("#reducedPrice").displayHTML($reducedPrice.toFixed(2));
+            $("#reducedPrice").displayHTML(reducedPrice.toFixed(2));
+            $("#basicPrice").displayHTML(parseNumber(data.calculatedTotal).toFixed(2));
         } else {
             $("#reducedPriceDisplay").hide();
         }

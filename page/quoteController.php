@@ -138,10 +138,10 @@ class Quote{
 
     function createQuote($data){
 
-
+        $sDate = date("Y-m-d H:i:s");
         $query = "INSERT INTO `erp_quotes` ";
         $query .= "(`quoteNumber`, `quoteDate`, `consultant1`, `consultant2`, `quoteType`,`createTime`)";
-        $query .= " VALUES ('{$data['quoteNumber']}', '{$data['quoteDate']}', '{$data['consultant1']}', '{$data['consultant2']}', '{$data['quoteType']}', NULL)";
+        $query .= " VALUES ('{$data['quoteNumber']}', '{$data['quoteDate']}', '{$data['consultant1']}', '{$data['consultant2']}', '{$data['quoteType']}', '{$sDate}')";
         $result = $this->mysqli->query($query);
         if(!$result){
             echo json_encode(array("status"=>'0',"reason"=>$this->mysqli->error));
@@ -179,7 +179,7 @@ class Quote{
         '{$data['item2Name']}','{$data['item2Price']}','{$data['item2Quantity']}','{$data['item2Total']}',
         '{$data['item3Name']}','{$data['item3Price']}','{$data['item3Quantity']}','{$data['item3Total']}',
         '{$data['paymentTerm1']}','{$data['paymentTerm2']}','{$data['paymentTerm3']}',
-        '{$data['notes']}', NULL)";
+        '{$data['notes']}', '{$sDate}')";
         $result = $this->mysqli->query($query);
         if(!$result){
             echo json_encode(array("status"=>0,"reason"=>$this->mysqli->error));
