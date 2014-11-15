@@ -19,14 +19,21 @@
                 <div class="panel-btns">
                     <a href="" class="panel-edit"><i class="fa fa-edit"></i></a>
                 </div><!-- panel-btns -->
-                <h3 class="panel-title">开发日志</h3>
+                <h3 class="panel-title">网站开发日志，<a href="development.php" style="color:#777;font-weight: bold">详细点击进入</a></h3>
             </div>
             <div class="panel-body">
                 <ul>
                     <li>
+                        <small class="pull-right">Nov 15</small>
+                        <h4 class="sender">建立网站开发日志页面，用于记录数据库开发进度</h4>
+                    </li>
+                    <li>
+                        <small class="pull-right">Nov 14</small>
+                        <h4 class="sender">完成Create New Quote，让用户可以在电脑上新建Quote</h4>
+                    </li>
+                    <li>
                         <small class="pull-right">Nov 13</small>
                         <h4 class="sender">完成Edit Quote</h4>
-                        <small>Quote编辑及保存功能已完成，地址在Quote表的每一列铅笔图案，点击进入，可以浏览Quote的各项数值，修改，点击底部的Save保存</small>
                     </li>
 
                 </ul>
