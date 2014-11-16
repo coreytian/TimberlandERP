@@ -17,6 +17,21 @@
 
             <div class="panel panel-default panel-blog">
                 <div class="panel-body">
+                    <h3 class="blogsingle-title">完成Quote的删除和还原功能</h3>
+                    <h5>2014-11-16</h5>
+                    <p>不用的Quote可以删除，点击Quote表右侧的垃圾桶图标</p>
+                    <div class="blog-img"><img src="timberland/img/4.jpg" class="img-responsive" alt="" /></div>
+                    <p>删除后的Quote在网站左侧Menu的“Recycle Bin”（回收站）里可以找到，并且可以点击“Restore”来还原</p>
+                    <p>所以Quote永远不会真正清除掉，被删除的Quote都可以查看和还原，防止误操作
+                    </p>
+
+
+
+                </div><!-- panel-body -->
+            </div><!-- panel -->
+
+            <div class="panel panel-default panel-blog">
+                <div class="panel-body">
                     <h3 class="blogsingle-title">建立网站开发日志页面</h3>
                     <h5>2014-11-15</h5>
                     <p>在菜单里的“Website Development”,用来记录网站开发进度，让用户了解新功能

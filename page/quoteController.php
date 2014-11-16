@@ -41,6 +41,15 @@ switch($method){
     case "viewQuote":
         $quote->getQuote($_GET['quoteid']);
         break;
+    case "inactiveQuote":
+        $quote->inactiveQuote($_POST['quoteId']);
+        break;
+    case "activeQuote":
+        $quote->activeQuote($_POST['quoteId']);
+        break;
+    case "getAllInactiveQuotes":
+        $quote->getAllInactiveQuotes();
+        break;
 }
 
 
@@ -62,6 +71,32 @@ class Quote{
             $this->editQuote($data);
         }
 
+    }
+
+    function inactiveQuote($quoteId){
+        $query = "UPDATE `erp_quotes` ";
+        $query .= "SET active=0";
+        $query .= " WHERE id = $quoteId";
+
+        $result = $this->mysqli->query($query);
+        if(!$result){
+            echo json_encode(array("status"=>0,"reason"=>$this->mysqli->error));
+            return;
+        }
+        echo json_encode(array("status"=>1));
+    }
+
+    function activeQuote($quoteId){
+        $query = "UPDATE `erp_quotes` ";
+        $query .= "SET active=1";
+        $query .= " WHERE id = $quoteId";
+
+        $result = $this->mysqli->query($query);
+        if(!$result){
+            echo json_encode(array("status"=>0,"reason"=>$this->mysqli->error));
+            return;
+        }
+        echo json_encode(array("status"=>1));
     }
 
     function editQuote($data){
@@ -125,7 +160,7 @@ class Quote{
         $query .= "paymentTerm1='{$data['paymentTerm1']}',";
         $query .= "paymentTerm2='{$data['paymentTerm2']}',";
         $query .= "paymentTerm3='{$data['paymentTerm3']}',";
-        $query .= "notes='{$data['notes']}'";
+        $query .= "notes='{$this->mysqli->real_escape_string($data['notes'])}'";
         $query .= " WHERE quoteId = {$data['quoteId']}";
 
         $result = $this->mysqli->query($query);
@@ -228,6 +263,19 @@ class Quote{
         return $row;
     }
 
+    function getAllInactiveQuotes(){
+        $query = "SELECT *,eq.id AS quote_id, eqf.id AS quote_floating_id, eq.createTime AS quote_createTime, eq.updateTime AS quote_updateTime, eqf.createTime AS quote_floating_createTime, eqf.updateTime AS quote_floating_updateTime
+                  FROM erp_quotes eq
+                  INNER JOIN erp_quote_floating eqf ON eq.id = eqf.quoteId
+                  WHERE active = 0
+                  ORDER BY eq.id DESC";
+        $result = $this->mysqli->query($query);
+        //$resultArray = $result->fetch_all(MYSQLI_ASSOC);
+        while($row = $result->fetch_array(MYSQLI_ASSOC)){
+            $resultArray[] = $row;
+        }
+        return $resultArray;
+    }
 
 
 }

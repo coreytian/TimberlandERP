@@ -24,6 +24,10 @@
             <div class="panel-body">
                 <ul>
                     <li>
+                        <small class="pull-right">Nov 16</small>
+                        <h4 class="sender">完成Quote的删除和还原功能</h4>
+                    </li>
+                    <li>
                         <small class="pull-right">Nov 15</small>
                         <h4 class="sender">建立网站开发日志页面，用于记录数据库开发进度</h4>
                     </li>

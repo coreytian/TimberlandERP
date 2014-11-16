@@ -1,11 +1,11 @@
 <?php include("header.php") ; ?>
 <div class="pageheader">
-    <h2><i class="fa fa-file-text"></i> Quotes </h2>
+    <h2><i class="fa fa-file-text"></i>Recycle Bin <span>where you can view and restore deleted items</span></h2>
     <div class="breadcrumb-wrapper">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
             <li><a href="index.php">Admin</a></li>
-            <li class="active">Quotes</li>
+            <li class="active">Recycle Bin</li>
         </ol>
     </div>
 </div>
@@ -13,8 +13,12 @@
 <div class="contentpanel">
 
     <div class="panel panel-default">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Deleted Quotes</h4>
+            <p class="text-primary">In this page you can view all the deleted quotes and click "Restore" to send one quote back to Quotes Page</p>
+        </div>
         <div class="panel-body">
-            <a href="createQuote.php" class="btn btn-orange cancelSaveQuoteBtn" style="margin-top: 0px;"><i class="fa fa-pencil-square-o"></i> Create New Quote</a>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover" id="quotesTable">
                     <thead>
@@ -26,6 +30,7 @@
                         <th>Client Name</th>
                         <th style="width:150px">Notes</th>
                         <th>Total Price</th>
+                        <th>Deleted Time</th>
                         <th class="operation">Operation</th>
 
                     </tr>
@@ -34,7 +39,7 @@
 
                     <tbody>
                     <?php include("../page/quoteController.php");
-                    $resultArray = $quote->getAllQuotes();
+                    $resultArray = $quote->getAllInactiveQuotes();
                     foreach($resultArray as $row){
                         $output = '<tr id="row-'.$row['quote_id'] .'">'.
                             '<td>'.$row['quote_id'].'</td>'.
@@ -44,19 +49,10 @@
                             '<td>'.$row['clientName'].'</td>'.
                             '<td><div style="max-height:100px;overflow:auto;">'.$row['notes'].'</div></td>'.
                             '<td>$'.number_format($row['finalTotal'], 2).'</td>'.
+                            '<td>'.$row['quote_updateTime'].'</td>'.
                             '<td class="operation">'.
-                                '<a  data-toggle="modal" data-target="#emptyModal" href="../page/viewQuote.php?quoteid='.$row['quote_id'].'"><i class="fa fa-eye"></i></a>'.
-                                '<a href="editQuote.php?quoteid='.$row['quote_id'].'"><i class="fa fa-pencil"></i></a>'.
-                                '<a href="" data="'.$row['quote_id'].'" class="delete-row"><i class="fa fa-trash-o"></i></a>'.
-                            '<div class="btn-group mr5" style="margin-right:0">
-                                <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown">
-                                  Action <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                  <li><a href="#">Make PDF(开发中)</a></li>
-                                  <li><a href="#">Make Contract(开发中)</a></li>
-                                </ul>
-                             </div>'.
+                            '<a  data-toggle="modal" data-target="#emptyModal" href="../page/viewQuote.php?quoteid='.$row['quote_id'].'"><i class="fa fa-eye"></i></a>'.
+                            '<a href="" data="'.$row['quote_id'].'" class="restore-row"><i class="fa fa-undo"></i> Restore</a>'.
                             '</td>'.
                             '</tr>';
                         echo $output;
@@ -102,11 +98,11 @@
 
         "use strict";
 
-        jQuery("#nav-quotes").addClass("active");
+        jQuery("#nav-bin").addClass("active");
 
         jQuery('#quotesTable').dataTable({
-           // "ajax": '../page/quoteController.php?method=getAllQuotes',
-            "order": [[ 0, "desc" ]],
+            // "ajax": '../page/quoteController.php?method=getAllQuotes',
+            "order": [[ 7, "desc" ]],
             "iDisplayLength": 10,
             "sPaginationType": "full_numbers",
             "scrollX": true,
@@ -123,13 +119,13 @@
 
         jQuery('select').removeClass('form-control');
 
-        // Delete row in a table
-        jQuery('.delete-row').click(function(){
+        // restore row in a table
+        jQuery('.restore-row').click(function(){
             var tr = jQuery(this).closest('tr');
-            var c = confirm("Are you sure you want to delete Quote "+$(this).attr("data")+"?");
+            var c = confirm("Are you sure you want to restore Quote "+$(this).attr("data")+"?");
             if(c){
                 var request = $.ajax({
-                    url: "../page/quoteController.php?method=inactiveQuote",
+                    url: "../page/quoteController.php?method=activeQuote",
                     type: "POST",
                     data: {"quoteId":$(this).attr("data")},
                     dataType: "json",
