@@ -1,0 +1,36 @@
+
+
+table .operation a{
+    margin-right: 10px;
+}
+
+#emptyModal .modal-dialog{
+    width:800px;
+}
+#emptyModal .modal-content{
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+.operation .dropdown-menu{
+    left: -100px;
+}
+#editQuoteForm .form-group{
+    padding:10px 0;
+}
+
+#editQuoteForm #enable-tabs button{
+    width:130px;
+
+}
+#editQuoteForm #enable-tabs .btn-group{
+    width: 100%;
+    margin-bottom: 0;
+}
+#editQuoteForm #enable-tabs .row-bot button {
+    border-top: 0;
+}
+#editQuoteForm .panel-body-2{
+    border-top:#e7e7e7 15px solid;
+    border-bottom:#e7e7e7 15px solid;
+}

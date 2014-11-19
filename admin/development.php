@@ -17,6 +17,26 @@
 
             <div class="panel panel-default panel-blog">
                 <div class="panel-body">
+                    <h3 class="blogsingle-title">Quote表可以开启和隐藏各种付款项</h3>
+                    <h5>2014-11-18</h5>
+                    <p>根据Jacky要求，Quote表现在可以非常方便地开启和隐藏各种付款项，比如Underlay，Furniture项等</p>
+                    <p>见下图，有两行按键，按下哪个就显示哪个项目，再次按下就隐藏</p>
+                    <div class="blog-img"><img src="timberland/img/5.jpg" class="img-responsive" alt="" /></div>
+
+                </div><!-- panel-body -->
+            </div><!-- panel -->
+
+
+            <div class="panel panel-default panel-blog">
+                <div class="panel-body">
+                    <h3 class="blogsingle-title">合并Quote的iPad版和电脑版</h3>
+                    <h5>2014-11-17</h5>
+                    <p>Quote不再分iPAD和电脑版，统一用一个页面，合并后的Quote表将跟容易使用更多功能。</p>
+                </div><!-- panel-body -->
+            </div><!-- panel -->
+
+            <div class="panel panel-default panel-blog">
+                <div class="panel-body">
                     <h3 class="blogsingle-title">完成Quote的删除和还原功能</h3>
                     <h5>2014-11-16</h5>
                     <p>不用的Quote可以删除，点击Quote表右侧的垃圾桶图标</p>

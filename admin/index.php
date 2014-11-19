@@ -24,6 +24,14 @@
             <div class="panel-body">
                 <ul>
                     <li>
+                        <small class="pull-right">Nov 18</small>
+                        <h4 class="sender">Quote表可以开启和隐藏各种付款项(Jack要求)</h4>
+                    </li>
+                    <li>
+                        <small class="pull-right">Nov 17</small>
+                        <h4 class="sender">合并Quote的iPad版和电脑版</h4>
+                    </li>
+                    <li>
                         <small class="pull-right">Nov 16</small>
                         <h4 class="sender">完成Quote的删除和还原功能</h4>
                     </li>

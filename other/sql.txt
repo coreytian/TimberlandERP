@@ -20,3 +20,18 @@ ADD COLUMN `extraItem3Name` VARCHAR(45) NULL AFTER `extraItem2Total`,
 ADD COLUMN `extraItem3Price` FLOAT NULL AFTER `extraItem3Name`,
 ADD COLUMN `extraItem3Quantity` FLOAT NULL AFTER `extraItem3Price`,
 ADD COLUMN `extraItem3Total` FLOAT NULL AFTER `extraItem3Quantity`;
+
+
+//2014-11-18
+
+ALTER TABLE `timberland_erp`.`erp_quote_floating`
+ADD COLUMN `enableTimber` TINYINT(1) NULL DEFAULT 1 AFTER `clientEmail`,
+ADD COLUMN `enableUnderlay` TINYINT(1) NULL DEFAULT 1 AFTER `enableTimber`,
+ADD COLUMN `enableFurnitureRemoval` TINYINT(1) NULL DEFAULT 1 AFTER `enableUnderlay`,
+ADD COLUMN `enableCarpetRemoval` TINYINT(1) NULL DEFAULT 1 AFTER `enableFurnitureRemoval`,
+ADD COLUMN `enableInstall` TINYINT(1) NULL DEFAULT 1 AFTER `enableCarpetRemoval`,
+ADD COLUMN `enableDelivery` TINYINT(1) NULL DEFAULT 1 AFTER `enableInstall`,
+ADD COLUMN `enableFloorLeveling` TINYINT(1) NULL DEFAULT 1 AFTER `enableDelivery`,
+ADD COLUMN `enableAt` TINYINT(1) NULL DEFAULT 1 AFTER `enableFloorLeveling`,
+ADD COLUMN `enableExtraItems` TINYINT(1) NULL DEFAULT 1 AFTER `enableAt`;
+

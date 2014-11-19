@@ -6,7 +6,16 @@ $( document ).ready(function() {
 
     var data = {
         calculatedTotal: 0,
-        finalTotal: 0
+        finalTotal: 0,
+        enableTimber: 0,
+        enableUnderlay: 0,
+        enableCarpetRemoval: 0,
+        enableFurnitureRemoval: 0,
+        enableFloorLeveling: 0,
+        enableInstall: 0,
+        enableDelivery: 0,
+        enableAt: 0,
+        enableExtraItems: 0
     }
 
     init();
@@ -32,6 +41,44 @@ $( document ).ready(function() {
         }
     }
 
+    /**
+     * Quote Item Tabs
+     *
+     */
+    $(".enable-tab-1, .enable-tab-2, .enable-tab-3, .enable-tab-4, .enable-tab-5, .enable-tab-6, .enable-tab-7, .enable-tab-8, .enable-tab-9").hide();
+
+    /**
+     * Enable payment item
+     */
+    $("#enable-tabs").on("click","button.tab-inactive",function(){
+        var id = $(this).attr('id');
+        var showId = $(this).attr('data-display');
+        data[id] = 1;
+        $("."+showId).show();
+        $(this).removeClass("tab-inactive btn-default").addClass("tab-active btn-success");
+        $(this).prepend('<i class="fa fa-check-square-o"></i> ');
+
+    })
+
+    /**
+     * Disable payment item
+     */
+    $("#enable-tabs").on("click","button.tab-active",function(){
+        var id = $(this).attr('id');
+        var showId = $(this).attr('data-display');
+        data[id] = 0;
+        //clear the input data
+        $("."+showId+" input:not(:radio)").val('');
+        if(showId == "enable-tab-6"){
+            $("#scotia").prop("checked", true);
+            $("#skirtingChoice1").prop("checked", true);
+            installToggle();
+        }
+        $("."+showId).hide();
+        $(this).removeClass("tab-active btn-success").addClass("tab-inactive btn-default");
+        $(this).find("i").remove();
+
+    })
 
     /**
      *  Timber

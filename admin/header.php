@@ -12,7 +12,7 @@
     <link href="css/jquery.datatables.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap-timepicker.min.css" />
     <link rel="stylesheet" href="css/jquery.tagsinput.css" />
-
+    <link href="timberland/timberland.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
@@ -60,8 +60,8 @@
             <ul class="nav nav-pills nav-stacked nav-bracket">
                 <li id="nav-dashboard"><a href="index.php"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
                 <li id="nav-quotes"><a href="quotes.php"><i class="fa fa-th-list"></i> <span>Quotes</span></a></li>
-                <li id="nav-makequotesPC"><a href="createQuote.php"><i class="fa fa-desktop"></i> <span>Make A Quote On PC</span></a></li>
-                <li id="nav-makequotes"><a href="../page/index.php"><i class="fa fa-tablet"></i> <span>Make A Quote On iPad</span></a></li>
+                <li id="nav-makequotesPC"><a href="createQuote.php"><i class="fa fa-pencil"></i> <span>Make A Quote</span></a></li>
+<!--                <li id="nav-makequotes"><a href="../page/index.php"><i class="fa fa-tablet"></i> <span>Make A Quote On iPad</span></a></li>-->
                 <li id="nav-bin"><a href="bin.php"><i class="fa fa-trash-o"></i> <span>Recycle Bin</span></a></li>
                 <li id="nav-websiteDevelopment"><a href="development.php"><i class="fa fa-wrench"></i> <span>Website Development</span></a></li>
 

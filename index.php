@@ -54,7 +54,7 @@
                     <input type="password" class="form-control pword" placeholder="Password" />
                     <a href=""><small>Forgot Your Password?</small></a>
                     <button class="btn btn-success btn-block">Sign In</button>
-                    <a href="page" class="btn btn-success btn-block" style="color:#fff;background-color: #fc9219;border-color: #ccc;">Make A Quote On iPad</a>
+                    <a href="admin/createQuote.php" class="btn btn-success btn-block" style="color:#fff;background-color: #fc9219;border-color: #ccc;">Make A Quote On iPad</a>
 
                 </form>
             </div><!-- col-sm-5 -->
