@@ -51,7 +51,7 @@
                             '<td>$'.number_format($row['finalTotal'], 2).'</td>'.
                             '<td>'.$row['quote_updateTime'].'</td>'.
                             '<td class="operation">'.
-                            '<a  data-toggle="modal" data-target="#emptyModal" href="../page/viewQuote.php?quoteid='.$row['quote_id'].'"><i class="fa fa-eye"></i></a>'.
+                            '<a  data-toggle="modal" data-target="#emptyModal" href="viewQuoteFromDB.php?quoteid='.$row['quote_id'].'"><i class="fa fa-eye"></i> View</a>'.
                             '<a href="" data="'.$row['quote_id'].'" class="restore-row"><i class="fa fa-undo"></i> Restore</a>'.
                             '</td>'.
                             '</tr>';

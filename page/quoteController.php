@@ -117,46 +117,55 @@ class Quote{
         $query .= "clientAddress='{$data['clientAddress']}',";
         $query .= "clientPhone='{$data['clientPhone']}',";
         $query .= "clientEmail='{$data['clientEmail']}',";
+        $query .= "enableTimber='{$data['enableTimber']}',";
         $query .= "timberType='{$data['timberType']}',";
         $query .= "timberSize='{$data['timberSize']}',";
         $query .= "timberPrice='{$data['timberPrice']}',";
         $query .= "timberArea='{$data['timberArea']}',";
         $query .= "timberWastage='{$data['timberWastage']}',";
         $query .= "timberTotal='{$data['timberTotal']}',";
+        $query .= "enableUnderlay='{$data['enableUnderlay']}',";
         $query .= "underlayPrice='{$data['underlayPrice']}',";
         $query .= "underlayArea='{$data['underlayArea']}',";
         $query .= "underlayTotal='{$data['underlayTotal']}',";
+        $query .= "enableCarpetRemoval='{$data['enableCarpetRemoval']}',";
         $query .= "carpetRemovalPrice='{$data['carpetRemovalPrice']}',";
         $query .= "carpetRemovalArea='{$data['carpetRemovalArea']}',";
         $query .= "carpetRemovalTotal='{$data['carpetRemovalTotal']}',";
+        $query .= "enableFurnitureRemoval='{$data['enableFurnitureRemoval']}',";
         $query .= "furnitureRemovalPrice='{$data['furnitureRemovalPrice']}',";
         $query .= "furnitureRemovalQuantity='{$data['furnitureRemovalQuantity']}',";
         $query .= "furnitureRemovalTotal='{$data['furnitureRemovalTotal']}',";
+        $query .= "enableFloorLeveling='{$data['enableFloorLeveling']}',";
         $query .= "floorLevelingPrice='{$data['floorLevelingPrice']}',";
         $query .= "floorLevelingArea='{$data['floorLevelingArea']}',";
         $query .= "floorLevelingTotal='{$data['floorLevelingTotal']}',";
+        $query .= "enableInstall='{$data['enableInstall']}',";
         $query .= "installChoice='{$data['installChoice']}',";
         $query .= "skirtingChoice='{$data['skirtingChoice']}',";
         $query .= "skirtingPrice='{$data['skirtingPrice']}',";
         $query .= "skirtingLength='{$data['skirtingLength']}',";
         $query .= "skirtingTotal='{$data['skirtingTotal']}',";
+        $query .= "enableDelivery='{$data['enableDelivery']}',";
         $query .= "deliveryFeeTotal='{$data['deliveryFeeTotal']}',";
+        $query .= "enableAt='{$data['enableAt']}',";
         $query .= "atColor='{$data['atColor']}',";
         $query .= "atPrice='{$data['atPrice']}',";
         $query .= "atLength='{$data['atLength']}',";
         $query .= "atTotal='{$data['atTotal']}',";
-        $query .= "extraItem1Name='{$data['item1Name']}',";
-        $query .= "extraItem1Price='{$data['item1Price']}',";
-        $query .= "extraItem1Quantity='{$data['item1Quantity']}',";
-        $query .= "extraItem1Total='{$data['item1Total']}',";
-        $query .= "extraItem2Name='{$data['item2Name']}',";
-        $query .= "extraItem2Price='{$data['item2Price']}',";
-        $query .= "extraItem2Quantity='{$data['item2Quantity']}',";
-        $query .= "extraItem2Total='{$data['item2Total']}',";
-        $query .= "extraItem3Name='{$data['item3Name']}',";
-        $query .= "extraItem3Price='{$data['item3Price']}',";
-        $query .= "extraItem3Quantity='{$data['item3Quantity']}',";
-        $query .= "extraItem3Total='{$data['item3Total']}',";
+        $query .= "enableExtraItems='{$data['enableExtraItems']}',";
+        $query .= "item1Name='{$data['item1Name']}',";
+        $query .= "item1Price='{$data['item1Price']}',";
+        $query .= "item1Quantity='{$data['item1Quantity']}',";
+        $query .= "item1Total='{$data['item1Total']}',";
+        $query .= "item2Name='{$data['item2Name']}',";
+        $query .= "item2Price='{$data['item2Price']}',";
+        $query .= "item2Quantity='{$data['item2Quantity']}',";
+        $query .= "item2Total='{$data['item2Total']}',";
+        $query .= "item3Name='{$data['item3Name']}',";
+        $query .= "item3Price='{$data['item3Price']}',";
+        $query .= "item3Quantity='{$data['item3Quantity']}',";
+        $query .= "item3Total='{$data['item3Total']}',";
         $query .= "paymentTerm1='{$data['paymentTerm1']}',";
         $query .= "paymentTerm2='{$data['paymentTerm2']}',";
         $query .= "paymentTerm3='{$data['paymentTerm3']}',";
@@ -196,9 +205,9 @@ class Quote{
         `enableDelivery`,`deliveryFeeTotal`,
         `enableAt`,`atColor`,`atPrice`,`atLength`,`atTotal`,
         `enableExtraItems`,
-        `extraItem1Name`,`extraItem1Price`,`extraItem1Quantity`,`extraItem1Total`,
-        `extraItem2Name`,`extraItem2Price`,`extraItem2Quantity`,`extraItem2Total`,
-        `extraItem3Name`,`extraItem3Price`,`extraItem3Quantity`,`extraItem3Total`,
+        `item1Name`,`item1Price`,`item1Quantity`,`item1Total`,
+        `item2Name`,`item2Price`,`item2Quantity`,`item2Total`,
+        `item3Name`,`item3Price`,`item3Quantity`,`item3Total`,
         `paymentTerm1`,`paymentTerm2`,`paymentTerm3`,
         `notes`,`createTime`)";
         $query .= " VALUES ('$quoteId','{$data['finalTotal']}','{$data['calculatedTotal']}',

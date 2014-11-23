@@ -17,33 +17,25 @@ $quoteData = $quote->getQuote($quoteId);
 <a href="quotes.php" class="btn btn-primary cancelSaveQuoteBtn" style="margin-left: 20px;margin-top: 18px;"><i class="fa fa-arrow-circle-left"></i> Back To Quotes Page</a>
 <div class="contentpanel">
     <div class="panel panel-default">
-    <div class="panel-heading">
+        <div class="panel-heading">
 
-        <div class="panel-btns">
-            <a href="" class="panel-close">×</a>
-            <a href="" class="minimize">−</a>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-3 text-muted">
-                <span>Quote ID: <?php echo $quoteData['quote_id']; ?></span>
-                <br/>
-                <span>Created at: <?php echo $quoteData['quote_createTime']; ?></span>
-                <br/><span>Updated at: <?php echo $quoteData['quote_updateTime']>$quoteData['quote_floating_updateTime']?$quoteData['quote_updateTime']:$quoteData['quote_floating_updateTime']; ?></span>
-
+            <div class="panel-btns">
+                <a href="" class="panel-close">×</a>
+                <a href="" class="minimize">−</a>
             </div>
 
-        </div>
-    </div>
-        <div class="panel-body">
-            <?php include("quoteForm.php");?>
             <div class="row">
-                <div class="col-sm-12">
-                    <button id="saveQuoteBtn" class="btn btn-success btn-lg" style="width: 190px;margin-right:20px;margin-left:20px;margin-top:20px;">Save Quote</button>
-                    <a href="quotes.php"  class="btn btn-danger btn-lg cancelSaveQuoteBtn" style="width: 140px;margin-top:20px;">Cancel</a>
+                <div class="col-sm-3 text-muted">
+                    <span>Quote ID: <?php echo $quoteData['quote_id']; ?></span>
+                    <br/>
+                    <span>Created at: <?php echo $quoteData['quote_createTime']; ?></span>
+                    <br/><span>Updated at: <?php echo $quoteData['quote_updateTime']>$quoteData['quote_floating_updateTime']?$quoteData['quote_updateTime']:$quoteData['quote_floating_updateTime']; ?></span>
+
                 </div>
+
             </div>
-        </div><!-- panel-body -->
+        </div>
+        <?php include("quoteForm.php");?>
     </div><!-- panel -->
 
 </div><!-- contentpanel -->
@@ -96,18 +88,19 @@ $quoteData = $quote->getQuote($quoteId);
 </div>
 
 <div class="modal fade" id="popupConfirmSave" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog" style="width:800px">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Confirm Save Quote</h4>
+                <h4 class="modal-title" id="myModalLabel">Please confirm to save the quote</h4>
             </div>
             <div class="modal-body">
-                <p style="padding-left: 10px;">
-                   The changes to this quote will be saved. Are you sure? Click 'Yes' to continue.
-                </p>
-                <button type="button" id="confirmSaveQuote"  class="btn btn-success" style="width:100px">Yes</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" style="float:right;width:100px">Cancel</button>
+                <div id="ajaxViewQuote"></div>
+                <div style="padding:5px;">
+
+                    <button type="button" id="confirmSaveQuote"  class="btn btn-success" style="width:200px;font-size: 18px;">Save</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="float:right;width:200px;font-size: 18px;">Cancel</button>
+                </div>
 
             </div>
         </div>
@@ -134,6 +127,14 @@ $quoteData = $quote->getQuote($quoteId);
                 <p id="saveFailMsg"></p>
                 <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="emptyModal" tabindex="-1" role="dialog" aria-labelledby="emptyModal" aria-hidden="true">
+    <div class="modal-dialog" style="width:800px">
+        <div class="modal-content">
+            <div id="ajaxViewQuote2"></div>
         </div>
     </div>
 </div>
@@ -206,7 +207,6 @@ $quoteData = $quote->getQuote($quoteId);
         var quoteData =''
         quoteData = <?php echo json_encode($quoteData); ?>;
 
-
         $('input#quoteId').val(quoteData.quoteId);
         $('input#quoteNumber').val(quoteData.quoteNumber);
         $('input#datepicker').val(quoteData.quoteDate);
@@ -216,70 +216,93 @@ $quoteData = $quote->getQuote($quoteId);
         $('input#clientAddress').val(quoteData.clientAddress);
         $('input#clientPhone').val(quoteData.clientPhone);
         $('input#clientEmail').val(quoteData.clientEmail);
-        $('input#timberType').val(quoteData.timberType);
-        $('input#timberSize').val(quoteData.timberSize);
-        $('input#timberPrice').val(accounting.toFixed(quoteData.timberPrice, 2));
-        $('input#timberArea').val(quoteData.timberArea);
-        $('input#timberWastage').val(quoteData.timberWastage);
-        $('input#timberTotal').val(accounting.toFixed(quoteData.timberTotal, 2));
-        $('input#underlayPrice').val(accounting.toFixed(quoteData.underlayPrice, 2));
-        $('input#underlayArea').val(quoteData.underlayArea);
-        $('input#underlayTotal').val(accounting.toFixed(quoteData.underlayTotal, 2));
-        $('input#carpetRemovalPrice').val(accounting.toFixed(quoteData.carpetRemovalPrice, 2));
-        $('input#carpetRemovalArea').val(quoteData.carpetRemovalArea);
-        $('input#carpetRemovalTotal').val(accounting.toFixed(quoteData.carpetRemovalTotal, 2));
-        $('input#furnitureRemovalPrice').val(accounting.toFixed(quoteData.furnitureRemovalPrice, 2));
-        $('input#furnitureRemovalQuantity').val(quoteData.furnitureRemovalQuantity);
-        $('input#furnitureRemovalTotal').val(accounting.toFixed(quoteData.furnitureRemovalTotal, 2));
-        $('input#floorLevelingPrice').val(accounting.toFixed(quoteData.floorLevelingPrice, 2));
-        $('input#floorLevelingArea').val(quoteData.floorLevelingArea);
-        $('input#floorLevelingTotal').val(accounting.toFixed(quoteData.floorLevelingTotal, 2));
+        if(quoteData.enableTimber == 1) {
+            $('input#timberType').val(quoteData.timberType);
+            $('input#timberSize').val(quoteData.timberSize);
+            $('input#timberPrice').val(accounting.toFixed(quoteData.timberPrice, 2));
+            $('input#timberArea').val(quoteData.timberArea);
+            $('input#timberWastage').val(quoteData.timberWastage);
+            $('input#timberTotal').val(accounting.toFixed(quoteData.timberTotal, 2));
+            $('#enableTimber').addClass('enabled');
+        }
+        if(quoteData.enableUnderlay == 1) {
+            $('input#underlayPrice').val(accounting.toFixed(quoteData.underlayPrice, 2));
+            $('input#underlayArea').val(quoteData.underlayArea);
+            $('input#underlayTotal').val(accounting.toFixed(quoteData.underlayTotal, 2));
+            $('#enableUnderlay').addClass('enabled');
+        }
+        if(quoteData.enableCarpetRemoval == 1) {
+            $('input#carpetRemovalPrice').val(accounting.toFixed(quoteData.carpetRemovalPrice, 2));
+            $('input#carpetRemovalArea').val(quoteData.carpetRemovalArea);
+            $('input#carpetRemovalTotal').val(accounting.toFixed(quoteData.carpetRemovalTotal, 2));
+            $('#enableCarpetRemoval').addClass('enabled');
+        }
+        if(quoteData.enableFurnitureRemoval == 1) {
+            $('input#furnitureRemovalPrice').val(accounting.toFixed(quoteData.furnitureRemovalPrice, 2));
+            $('input#furnitureRemovalQuantity').val(quoteData.furnitureRemovalQuantity);
+            $('input#furnitureRemovalTotal').val(accounting.toFixed(quoteData.furnitureRemovalTotal, 2));
+            $('#enableFurnitureRemoval').addClass('enabled');
+        }
+        if(quoteData.enableFloorLeveling == 1) {
+            $('input#floorLevelingPrice').val(accounting.toFixed(quoteData.floorLevelingPrice, 2));
+            $('input#floorLevelingArea').val(quoteData.floorLevelingArea);
+            $('input#floorLevelingTotal').val(accounting.toFixed(quoteData.floorLevelingTotal, 2));
+            $('#enableFloorLeveling').addClass('enabled');
+        }
+        if(quoteData.enableInstall == 1) {
+            if(quoteData.installChoice == "skirting"){
+                $('input#scotia').prop('checked',false);
+                $('input#skirting').prop('checked',true);
+            } else{
+                $('input#skirting').prop('checked',false);
+                $('input#scotia').prop('checked',true);
+            }
 
-        if(quoteData.installChoice == "skirting"){
-            $('input#scotia').prop('checked',false);
-            $('input#skirting').prop('checked',true);
-        } else{
-            $('input#skirting').prop('checked',false);
-            $('input#scotia').prop('checked',true);
+            if(quoteData.skirtingChoice == "skirtingChoice1"){
+                $('input#skirtingChoice2').prop('checked',false);
+                $('input#skirtingChoice1').prop('checked',true);
+            } else{
+                $('input#skirtingChoice1').prop('checked',false);
+                $('input#skirtingChoice2').prop('checked',true);
+            }
+
+            $('input#skirtingPrice').val(accounting.toFixed(quoteData.skirtingPrice, 2));
+            $('input#skirtingLength').val(quoteData.skirtingLength);
+            $('input#skirtingTotal').val(accounting.toFixed(quoteData.skirtingTotal, 2));
+            $('#enableInstall').addClass('enabled');
+        }
+        if(quoteData.enableDelivery == 1) {
+            $('input#deliveryFeeTotal').val(quoteData.deliveryFeeTotal);
+            $('#enableDelivery').addClass('enabled');
+        }
+        if(quoteData.enableAt == 1) {
+            $('input#atColor').val(quoteData.atColor);
+            $('input#atPrice').val(accounting.toFixed(quoteData.atPrice, 2));
+            $('input#atLength').val(quoteData.atLength);
+            $('input#atTotal').val(accounting.toFixed(quoteData.atTotal, 2));
+            $('#enableAt').addClass('enabled');
+        }
+        if(quoteData.enableExtraItems == 1) {
+            $('input#item1Name').val(quoteData.item1Name);
+            $('input#item1Price').val(accounting.toFixed(quoteData.item1Price, 2));
+            $('input#item1Quantity').val(quoteData.item1Quantity);
+            $('input#item1Total').val(accounting.toFixed(quoteData.item1Total, 2));
+            $('input#item2Name').val(quoteData.item2Name);
+            $('input#item2Price').val(accounting.toFixed(quoteData.item2Price, 2));
+            $('input#item2Quantity').val(quoteData.item2Quantity);
+            $('input#item2Total').val(accounting.toFixed(quoteData.item2Total, 2));
+            $('input#item3Name').val(quoteData.item3Name);
+            $('input#item3Price').val(accounting.toFixed(quoteData.item3Price, 2));
+            $('input#item3Quantity').val(quoteData.item3Quantity);
+            $('input#item3Total').val(accounting.toFixed(quoteData.item3Total, 2));
+            $('#enableExtraItems').addClass('enabled');
         }
 
-        if(quoteData.skirtingChoice == "skirtingChoice1"){
-            $('input#skirtingChoice2').prop('checked',false);
-            $('input#skirtingChoice1').prop('checked',true);
-        } else{
-            $('input#skirtingChoice1').prop('checked',false);
-            $('input#skirtingChoice2').prop('checked',true);
-        }
-
-        $('input#skirtingPrice').val(accounting.toFixed(quoteData.skirtingPrice, 2));
-        $('input#skirtingLength').val(quoteData.skirtingLength);
-        $('input#skirtingTotal').val(accounting.toFixed(quoteData.skirtingTotal, 2));
-        $('input#deliveryFeeTotal').val(quoteData.deliveryFeeTotal);
-        $('input#atColor').val(quoteData.atColor);
-        $('input#atPrice').val(accounting.toFixed(quoteData.atPrice, 2));
-        $('input#atLength').val(quoteData.atLength);
-        $('input#atTotal').val(accounting.toFixed(quoteData.atTotal, 2));
-        $('input#item1Name').val(quoteData.extraItem1Name);
-        $('input#item1Price').val(accounting.toFixed(quoteData.extraItem1Price, 2));
-        $('input#item1Quantity').val(quoteData.extraItem1Quantity);
-        $('input#item1Total').val(accounting.toFixed(quoteData.extraItem1Total, 2));
-        $('input#item2Name').val(quoteData.extraItem2Name);
-        $('input#item2Price').val(accounting.toFixed(quoteData.extraItem2Price, 2));
-        $('input#item2Quantity').val(quoteData.extraItem2Quantity);
-        $('input#item2Total').val(accounting.toFixed(quoteData.extraItem2Total, 2));
-        $('input#item3Name').val(quoteData.extraItem3Name);
-        $('input#item3Price').val(accounting.toFixed(quoteData.extraItem3Price, 2));
-        $('input#item3Quantity').val(quoteData.extraItem3Quantity);
-        $('input#item3Total').val(accounting.toFixed(quoteData.extraItem3Total, 2));
-
-
-        $('input#finalTotal').val(accounting.toFixed(quoteData.finalTotal, 2));
+        $('#finalTotal').text(accounting.toFixed(quoteData.finalTotal, 2));
         $('input#paymentTerm1').val(accounting.toFixed(quoteData.paymentTerm1, 2));
         $('input#paymentTerm2').val(accounting.toFixed(quoteData.paymentTerm2, 2));
         $('input#paymentTerm3').val(accounting.toFixed(quoteData.paymentTerm3, 2));
         $('#notes').val(quoteData.notes)
-
-        //$('input#').val(quoteData.);
 
 
         var numberInputArray = [

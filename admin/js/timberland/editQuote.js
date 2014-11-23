@@ -18,35 +18,6 @@ $( document ).ready(function() {
         enableExtraItems: 0
     }
 
-    init();
-
-    function init(){
-        data.calculatedTotal = parseNumber(calculateTotal());
-        data.finalTotal = parseNumber($("#finalTotal").val());
-        installToggle();
-        showSavedPrice();
-    }
-
-
-    function showSavedPrice(){
-        var calculatedTotal = parseNumber(calculateTotal());
-        var finalTotal = parseNumber($("#finalTotal").val());
-        var diff = calculatedTotal - finalTotal;
-        if(diff > 0){
-                $("#reducedPriceDisplay").show();
-                $("#reducedPrice").html(diff.toFixed(2));
-                $("#basicPrice").html(calculatedTotal.toFixed(2));
-        } else {
-            $("#reducedPriceDisplay").hide();
-        }
-    }
-
-    /**
-     * Quote Item Tabs
-     *
-     */
-    $(".enable-tab-1, .enable-tab-2, .enable-tab-3, .enable-tab-4, .enable-tab-5, .enable-tab-6, .enable-tab-7, .enable-tab-8, .enable-tab-9").hide();
-
     /**
      * Enable payment item
      */
@@ -79,6 +50,34 @@ $( document ).ready(function() {
         $(this).find("i").remove();
 
     })
+
+    init();
+
+    function init(){
+        data.calculatedTotal = parseNumber(calculateTotal());
+        data.finalTotal = parseNumber($("#finalTotal").text());
+        installToggle();
+        showSavedPrice();
+        //$(".enable-section").hide();
+        $('.enabled').trigger('click');
+    }
+
+
+    function showSavedPrice(){
+        var calculatedTotal = parseNumber(calculateTotal());
+        var finalTotal = parseNumber($("#finalTotal").text());
+        var diff = calculatedTotal - finalTotal;
+        if(diff > 0){
+                $("#reducedPriceDisplay").show();
+                $("#reducedPrice").html(diff.toFixed(2));
+                $("#basicPrice").html(calculatedTotal.toFixed(2));
+        } else {
+            $("#reducedPriceDisplay").hide();
+        }
+    }
+
+
+
 
     /**
      *  Timber
@@ -306,24 +305,8 @@ $( document ).ready(function() {
         $("#saveQuoteBtn").prop("disabled",true);
         $("#saveQuoteBtn").html("Saving . . . ");
 
-        data['calculatedTotal'] = calculateTotal();
-        // get all the inputs into an array.
-        var $inputs = $('#editQuoteForm :input');
+        data = generateQuoteData();
 
-        $inputs.each(function() {
-            data[this.name] = $(this).val();
-        });
-
-        var installChoice = $('input[name=installChoice]:checked').val();
-        var skirtingChoice = $('input[name=skirtingChoice]:checked').val();
-        data['installChoice'] = installChoice;
-        data['skirtingChoice'] = skirtingChoice;
-        if(installChoice == 'scotia'){
-            data['skirtingChoice'] = '';
-            data['skirtingLength'] = '';
-            data['skirtingPrice'] = '';
-            data['skirtingTotal'] = '';
-        }
         var request = $.ajax({
             url: "../page/quoteController.php?method=saveQuote",
             type: "POST",
@@ -368,12 +351,56 @@ $( document ).ready(function() {
         });
     });
 
+    $('#popupConfirmSave').on('show.bs.modal', function (e) {
+        var viewData = generateQuoteData();
+        var data2JSON = JSON.stringify(viewData);
+        $('#ajaxViewQuote').load('viewQuoteFromJS.php', {data: data2JSON});
+    });
+
+    $('#popupConfirmSave').on('hidden.bs.modal', function (e) {
+        $('#ajaxViewQuote').html('');
+    });
+
+    $('#emptyModal').on('show.bs.modal', function (e) {
+
+        var viewData = generateQuoteData();
+        var data2JSON = JSON.stringify(viewData);
+        $('#ajaxViewQuote2').load('viewQuoteFromJS.php', {data: data2JSON});
+    });
+
+    $('#emptyModal').on('hidden.bs.modal', function (e) {
+        $('#ajaxViewQuote2').html('');
+    });
+
+    function generateQuoteData(){
+        var viewData= data;
+        viewData['calculatedTotal'] = calculateTotal();
+        // get all the inputs into an array.
+        var inputs = $('#editQuoteForm :input');
+
+        inputs.each(function() {
+            viewData[this.name] = $(this).val();
+        });
+
+        var installChoice = $('input[name=installChoice]:checked').val();
+        var skirtingChoice = $('input[name=skirtingChoice]:checked').val();
+        viewData['installChoice'] = installChoice;
+        viewData['skirtingChoice'] = skirtingChoice;
+        if(installChoice == 'scotia'){
+            viewData['skirtingChoice'] = '';
+            viewData['skirtingLength'] = '';
+            viewData['skirtingPrice'] = '';
+            viewData['skirtingTotal'] = '';
+        }
+        return viewData;
+
+    }
     /** Generic Functions   */
 
     function setFinalTotal(total){
         data.finalTotal = total;
         calculatePaymentTerms();
-        $("#finalTotal").displayVal(total);
+        $("#finalTotal").displayHTML(total);
 
         var reducedPrice = parseNumber(data.calculatedTotal) - parseNumber(total);
         if(reducedPrice > 0 && parseNumber(total)!=0){

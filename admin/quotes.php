@@ -24,7 +24,7 @@
                         <th>Date</th>
                         <th>Quote Type</th>
                         <th>Client Name</th>
-                        <th style="width:150px">Notes</th>
+                        <th class="notes-th" style="width:130px">Notes</th>
                         <th>Total Price</th>
                         <th class="operation">Operation</th>
 
@@ -42,17 +42,18 @@
                             '<td>'.$row['quoteDate'].'</td>'.
                             '<td>'.$row['quoteType'].'</td>'.
                             '<td>'.$row['clientName'].'</td>'.
-                            '<td><div style="max-height:100px;overflow:auto;">'.$row['notes'].'</div></td>'.
+                            '<td><div style="max-height:100px;overflow:auto">'.$row['notes'].'</div></td>'.
                             '<td>$'.number_format($row['finalTotal'], 2).'</td>'.
                             '<td class="operation">'.
-                                '<a  data-toggle="modal" data-target="#emptyModal" href="../page/viewQuote.php?quoteid='.$row['quote_id'].'"><i class="fa fa-eye"></i></a>'.
-                                '<a href="editQuote.php?quoteid='.$row['quote_id'].'"><i class="fa fa-pencil"></i></a>'.
-                                '<a href="" data="'.$row['quote_id'].'" class="delete-row"><i class="fa fa-trash-o"></i></a>'.
+                                '<a  data-toggle="modal" data-target="#emptyModal" href="viewQuoteFromDB.php?quoteid='.$row['quote_id'].'"><i class="fa fa-eye"></i> View</a>'.
+                                '<a href="editQuote.php?quoteid='.$row['quote_id'].'"><i class="fa fa-pencil"></i> Edit</a>'.
+
                             '<div class="btn-group mr5" style="margin-right:0">
                                 <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown">
                                   Action <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
+                                  <li><a href="" data="'.$row['quote_id'].'" class="delete-row"><i class="fa fa-trash-o"></i> Delete</a></li>
                                   <li><a href="#">Make PDF(开发中)</a></li>
                                   <li><a href="#">Make Contract(开发中)</a></li>
                                 </ul>
@@ -111,7 +112,7 @@
             "sPaginationType": "full_numbers",
             "scrollX": true,
             "columnDefs": [
-                { "width": "170px", "targets": 'operation' }
+                { "width": "200px", "targets": 'operation' }
             ]
 
         });
