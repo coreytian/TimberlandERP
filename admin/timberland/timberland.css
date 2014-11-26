@@ -1,7 +1,7 @@
 
 
 table .operation a{
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 #emptyModal .modal-dialog{
@@ -13,7 +13,7 @@ table .operation a{
 }
 
 .operation .dropdown-menu{
-    left: -100px;
+    left: -40px;
 }
 #editQuoteForm .form-group{
     padding:10px 0;
@@ -33,4 +33,7 @@ table .operation a{
 #editQuoteForm .panel-body-2{
     border-top:#e7e7e7 15px solid;
     border-bottom:#e7e7e7 15px solid;
+}
+.panel-heading-logo{
+    padding:5px 15px;
 }

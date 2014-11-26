@@ -14,7 +14,7 @@
 
     <div class="panel panel-default">
         <div class="panel-body">
-            <a href="createQuote.php" class="btn btn-orange cancelSaveQuoteBtn" style="margin-top: 0px;"><i class="fa fa-pencil-square-o"></i> Create New Quote</a>
+            <a href="createQuote.php" class="btn btn-orange cancelSaveQuoteBtn" style="margin-top: 0px;"><i class="fa fa-plus" style="padding-top:0px;padding-right:15px"></i> Create New Quote</a>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover" id="quotesTable">
                     <thead>
@@ -45,16 +45,17 @@
                             '<td><div style="max-height:100px;overflow:auto">'.$row['notes'].'</div></td>'.
                             '<td>$'.number_format($row['finalTotal'], 2).'</td>'.
                             '<td class="operation">'.
-                                '<a  data-toggle="modal" data-target="#emptyModal" href="viewQuoteFromDB.php?quoteid='.$row['quote_id'].'"><i class="fa fa-eye"></i> View</a>'.
-                                '<a href="editQuote.php?quoteid='.$row['quote_id'].'"><i class="fa fa-pencil"></i> Edit</a>'.
-
                             '<div class="btn-group mr5" style="margin-right:0">
-                                <button type="button" class="btn btn-success dropdown-toggle btn-sm" data-toggle="dropdown">
+
+                                <button type="button" class="btn btn-white btn-sm" data-toggle="modal" data-target="#emptyModal" href="viewQuoteFromDB.php?quoteid='.$row['quote_id'].'">View</button>
+                                <a type="button"  class="btn btn-white btn-sm" href="editQuote.php?quoteid='.$row['quote_id'].'" style="margin-right:0">Edit</a>
+                                <button type="button" class="btn btn-white dropdown-toggle btn-sm" data-toggle="dropdown">
                                   Action <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                  <li><a href="" data="'.$row['quote_id'].'" class="delete-row"><i class="fa fa-trash-o"></i> Delete</a></li>
-                                  <li><a href="#">Make PDF(开发中)</a></li>
+                                  <li><a href="" data="'.$row['quote_id'].'" class="delete-row"><i class="fa fa-trash-o" style="padding-right:10px"></i>Delete</a></li>
+                                  <li><a target="_blank" href="quotePDF.php?quoteid='.$row['quote_id'].'"><i class="fa fa-file-pdf-o" style="padding-right:10px"></i>Open PDF in Browser</a></li>
+                                  <li><a href="quotePDF.php?quoteid='.$row['quote_id'].'&download=1"><i class="fa fa-download" style="padding-right:10px"></i>Download PDF file</a></li>
                                   <li><a href="#">Make Contract(开发中)</a></li>
                                 </ul>
                              </div>'.

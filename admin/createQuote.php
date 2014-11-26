@@ -9,18 +9,20 @@
             <li class="active">Create Quote</li>
         </ol>
     </div>
-</div>-->
+</div>
 <a href="quotes.php" class="btn btn-primary cancelSaveQuoteBtn" style="margin-left: 20px;margin-top: 18px;"><i class="fa fa-arrow-circle-left"></i> Back To Quotes Page</a>
+-->
 <div class="contentpanel">
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-btns">
+        <div class="panel-heading-logo panel-heading">
+<!--            <div class="panel-btns">
                 <a href="" class="panel-close">×</a>
                 <a href="" class="minimize">−</a>
-            </div>
+            </div>-->
 
             <div class="row">
-                <div class="col-sm-3 text-muted">
+                <img src="images/logo.png" style="float:right" width="180px"/>
+                <div class="col-sm-5" style="line-height: 60px;font-size: 15pt;">
                     Create New Quote
                 </div>
 
@@ -83,10 +85,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title" id="myModalLabel">Please confirm the quote</h4>
             </div>
+            <div id="ajaxViewQuote"></div>
             <div class="modal-body">
-                <div id="ajaxViewQuote"></div>
                 <div style="padding:5px;">
-
                     <button type="button" id="confirmSaveQuote"  class="btn btn-success" style="width:200px;font-size: 18px;">Create</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal" style="float:right;width:200px;font-size: 18px;">Cancel</button>
                 </div>
