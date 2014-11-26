@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 if (strpos($_SERVER["SERVER_NAME"],'localhost') !== false) {
     $env = "local";
 } else {

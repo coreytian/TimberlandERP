@@ -11,9 +11,9 @@ function check_and_number_format($value){
     }
     return '';
 }
-ob_clean();
 // Include the main TCPDF library (search for installation path).
 require_once('../include/tcpdf/examples/config/tcpdf_config_alt.php');
+
 require_once('../include/tcpdf/tcpdf.php');
 function checkChinese($string, $pdf){
     if(preg_match('/\p{Han}+/u', $string)){
@@ -321,6 +321,7 @@ $dest = "I";
 if(isset($_GET['download'])){
     $dest = "D";
 }
+if (ob_get_contents()) ob_end_clean();
 //Close and output PDF document
 $pdf->Output('Quoate_'.$quoteData['quoteNumber'].'.pdf', $dest);
 

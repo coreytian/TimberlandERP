@@ -14,7 +14,7 @@
 
     <div class="panel panel-default">
         <div class="panel-body">
-            <a href="createQuote.php" class="btn btn-orange cancelSaveQuoteBtn" style="margin-top: 0px;"><i class="fa fa-plus" style="padding-top:0px;padding-right:15px"></i> Create New Quote</a>
+            <a href="createQuote.php" class="btn btn-orange cancelSaveQuoteBtn" style="margin-bottom: 10px;"><i class="fa fa-plus" style="padding-top:0px;padding-right:15px"></i> Create New Quote</a>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover" id="quotesTable">
                     <thead>
