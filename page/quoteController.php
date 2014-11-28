@@ -50,6 +50,9 @@ switch($method){
     case "getAllInactiveQuotes":
         $quote->getAllInactiveQuotes();
         break;
+    case "convertContract":
+        $quote->convertContract($_GET['quoteid']);
+        break;
 }
 
 
@@ -225,7 +228,7 @@ class Quote{
         '{$data['item2Name']}','{$data['item2Price']}','{$data['item2Quantity']}','{$data['item2Total']}',
         '{$data['item3Name']}','{$data['item3Price']}','{$data['item3Quantity']}','{$data['item3Total']}',
         '{$data['paymentTerm1']}','{$data['paymentTerm2']}','{$data['paymentTerm3']}',
-        '{$data['notes']}', '{$sDate}')";
+        '{$this->mysqli->real_escape_string($data['notes'])}', '{$sDate}')";
         $result = $this->mysqli->query($query);
         if(!$result){
             echo json_encode(array("status"=>0,"reason"=>$this->mysqli->error));
@@ -288,5 +291,36 @@ class Quote{
         return $resultArray;
     }
 
+    function convertContract($quoteId){
+        $quote = $this->getQuote($quoteId);
+        $contract = array();
+        $contract['quoteId'] = $quote['quote_id'];
+        $contract['quoteNumber'] = $quote['quoteNumber'];
+        $contract['clientName'] = $quote['clientName'];
+        $contract['clientAddress'] = $quote['clientAddress'];
+        $contract['clientMobile'] = $quote['clientPhone'];
+        $contract['clientEmail'] = $quote['clientEmail'];
+        $contract['finalTotal'] = $quote['finalTotal'];
+        $contract['calculatedTotal'] = $quote['calculatedTotal'];
+        $contract['paymentTerm1'] = $quote['paymentTerm1'];
+        $contract['paymentTerm2'] = $quote['paymentTerm2'];
+        $contract['paymentTerm3'] = $quote['paymentTerm3'];
+        $contract['description'] = "Description\n";
+
+        if($quote['enableTimber']==1){
+            $contract['description'] .= "Timber Type: {$quote['timberType']}, Size: {$quote['timberSize']}, Wastage: {$quote['timberWastage']}, ";
+            $contract['description'] .= "Price: $".$this->check_and_number_format($quote['timberPrice']).", {$quote['timberArea']} sqm, Total: $". $this->check_and_number_format($quote['timberTotal'])."\n";
+        }
+
+        return $contract;
+    }
+
+    function check_and_number_format($value){
+        $value = trim($value);
+        if(is_numeric($value)){
+            return number_format($value, 2);
+        }
+        return '';
+    }
 
 }

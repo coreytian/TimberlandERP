@@ -1,11 +1,11 @@
 <?php include("header.php") ; ?>
 <div class="pageheader">
-    <h2><i class="fa fa-file-text"></i> Quotes </h2>
+    <h2><i class="fa fa-file-text"></i> Contracts </h2>
     <div class="breadcrumb-wrapper">
         <span class="label">You are here:</span>
         <ol class="breadcrumb">
             <li><a href="index.php">Admin</a></li>
-            <li class="active">Quotes</li>
+            <li class="active">Contracts</li>
         </ol>
     </div>
 </div>
@@ -14,17 +14,16 @@
 
     <div class="panel panel-default">
         <div class="panel-body">
-            <a href="createQuote.php" class="btn btn-orange cancelSaveQuoteBtn" style="margin-bottom: 10px;"><i class="fa fa-plus" style="padding-top:0px;padding-right:15px"></i> Create New Quote</a>
+            <a href="createContract.php" class="btn btn-orange" style="margin-bottom: 10px;"><i class="fa fa-plus" style="padding-top:0px;padding-right:15px"></i> Create Contract</a>
             <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover" id="quotesTable">
+                <table class="table table-striped table-bordered table-hover" id="contractsTable">
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Contract Number</th>
                         <th>Quote Number</th>
-                        <th>Date</th>
-                        <th>Quote Type</th>
-                        <th>Client Name</th>
-                        <th class="notes-th" style="width:130px">Notes</th>
+                        <th>Create Date</th>
+                        <th>Owner Name</th>
                         <th>Total Price</th>
                         <th class="operation">Operation</th>
 
@@ -33,30 +32,26 @@
 
 
                     <tbody>
-                    <?php include("../page/quoteController.php");
-                    $resultArray = $quote->getAllQuotes();
+                    <?php include("../page/contractController.php");
+                    $resultArray = $contract->getAllContracts();
                     foreach($resultArray as $row){
-                        $output = '<tr id="row-'.$row['quote_id'] .'">'.
-                            '<td>'.$row['quote_id'].'</td>'.
+                        $output = '<tr id="row-'.$row['id'] .'">'.
+                            '<td>'.$row['id'].'</td>'.
+                            '<td>'.$row['contractNumber'].'</td>'.
                             '<td>'.$row['quoteNumber'].'</td>'.
-                            '<td>'.$row['quoteDate'].'</td>'.
-                            '<td>'.$row['quoteType'].'</td>'.
+                            '<td>'.$row['createTime'].'</td>'.
                             '<td>'.$row['clientName'].'</td>'.
-                            '<td><div style="max-height:100px;overflow:auto">'.$row['notes'].'</div></td>'.
                             '<td>$'.number_format($row['finalTotal'], 2).'</td>'.
                             '<td class="operation">'.
                             '<div class="btn-group mr5" style="margin-right:0">
-
-                                <button type="button" class="btn btn-white btn-sm" data-toggle="modal" data-target="#emptyModal" href="viewQuoteFromDB.php?quoteid='.$row['quote_id'].'">View</button>
-                                <a type="button"  class="btn btn-white btn-sm" href="editQuote.php?quoteid='.$row['quote_id'].'" style="margin-right:0">Edit</a>
+                                <a type="button"  class="btn btn-white btn-sm" href="editContract.php?id='.$row['id'].'" style="margin-right:0">Edit</a>
                                 <button type="button" class="btn btn-white dropdown-toggle btn-sm" data-toggle="dropdown">
                                   Action <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
-                                  <li><a href="" data="'.$row['quote_id'].'" class="delete-row"><i class="fa fa-trash-o" style="padding-right:10px"></i>Delete</a></li>
-                                  <li><a target="_blank" href="quotePDF.php?quoteid='.$row['quote_id'].'"><i class="fa fa-file-pdf-o" style="padding-right:10px"></i>Open PDF in Browser</a></li>
-                                  <li><a href="quotePDF.php?quoteid='.$row['quote_id'].'&download=1"><i class="fa fa-download" style="padding-right:10px"></i>Download PDF file</a></li>
-                                  <li><a href="createContract.php?fromQuote=1&quoteid='.$row['quote_id'].'"><i class="fa fa-file-text-o" style="padding-right:10px"></i>Make Contract</a></li>
+                                  <li><a href="" data="'.$row['id'].'" class="delete-row"><i class="fa fa-trash-o" style="padding-right:10px"></i>Delete</a></li>
+                                  <li><a target="_blank" href="contractPDF.php?id='.$row['id'].'"><i class="fa fa-file-pdf-o" style="padding-right:10px"></i>Open PDF in Browser</a></li>
+                                  <li><a href="contractPDF.php?id='.$row['id'].'&download=1"><i class="fa fa-download" style="padding-right:10px"></i>Download PDF file</a></li>
                                 </ul>
                              </div>'.
                             '</td>'.
@@ -104,10 +99,9 @@
 
         "use strict";
 
-        jQuery("#nav-quotes").addClass("active");
+        jQuery("#nav-contracts").addClass("active");
 
-        jQuery('#quotesTable').dataTable({
-           // "ajax": '../page/quoteController.php?method=getAllQuotes',
+        jQuery('#contractsTable').dataTable({
             "order": [[ 0, "desc" ]],
             "iDisplayLength": 10,
             "sPaginationType": "full_numbers",
@@ -128,12 +122,12 @@
         // Delete row in a table
         jQuery('.delete-row').click(function(){
             var tr = jQuery(this).closest('tr');
-            var c = confirm("Are you sure you want to delete Quote "+$(this).attr("data")+"?");
+            var c = confirm("Are you sure you want to delete this Contract "+$(this).attr("data")+"?");
             if(c){
                 var request = $.ajax({
-                    url: "../page/quoteController.php?method=inactiveQuote",
+                    url: "../page/contractController.php?method=inactiveContract",
                     type: "POST",
-                    data: {"quoteId":$(this).attr("data")},
+                    data: {"contractId":$(this).attr("data")},
                     dataType: "json",
                     complete: function(){
                         tr.fadeOut(function(){

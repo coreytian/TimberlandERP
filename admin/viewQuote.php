@@ -46,7 +46,7 @@
     }
 </style>
 <div class="panel-body viewContainerBody">
-    <div class="row">
+    <div class="row hide-only-show-data">
         <div class="col-sm-5">
             <div class="basic">
                 <div class="field"><div class="fieldName">Quote Number: </div><div class="fieldValue"><?php echo $quoteData['quoteNumber'] ?></div></div>

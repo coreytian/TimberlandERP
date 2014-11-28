@@ -61,6 +61,50 @@
                     </tbody>
                 </table>
             </div><!-- table-responsive -->
+        </div><!-- panel-body -->
+    </div><!-- panel -->
+    <div class="panel panel-default">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Deleted Contracts</h4>
+            <p class="text-primary">In this page you can view all the deleted contracts and click "Restore" to send one contract back to Contracts Page</p>
+        </div>
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover" id="contractsTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Contract Number</th>
+                        <th>Client Name</th>
+                        <th>Total Price</th>
+                        <th>Deleted Time</th>
+                        <th class="operation">Operation</th>
+
+                    </tr>
+                    </thead>
+
+
+                    <tbody>
+                    <?php include("../page/contractController.php");
+                    $resultArray = $contract->getAllInactiveContracts();
+                    foreach($resultArray as $row){
+                        $output = '<tr id="row-'.$row['id'] .'">'.
+                            '<td>'.$row['id'].'</td>'.
+                            '<td>'.$row['contractNumber'].'</td>'.
+                            '<td>'.$row['clientName'].'</td>'.
+                            '<td>$'.number_format($row['finalTotal'], 2).'</td>'.
+                            '<td>'.$row['updateTime'].'</td>'.
+                            '<td class="operation">'.
+                            '<a href="" data="'.$row['id'].'" class="restore-row-contract"><i class="fa fa-undo"></i> Restore</a>'.
+                            '</td>'.
+                            '</tr>';
+                        echo $output;
+                    }
+                    ?>
+                    </tbody>
+                </table>
+            </div><!-- table-responsive -->
 
         </div><!-- panel-body -->
     </div><!-- panel -->
@@ -112,6 +156,17 @@
 
         });
 
+        jQuery('#contractsTable').dataTable({
+            "order": [[ 4, "desc" ]],
+            "iDisplayLength": 10,
+            "sPaginationType": "full_numbers",
+            "scrollX": true,
+            "columnDefs": [
+                { "width": "170px", "targets": 'operation' }
+            ]
+
+        });
+
         // Select2
         jQuery('select').select2({
             minimumResultsForSearch: -1
@@ -128,6 +183,25 @@
                     url: "../page/quoteController.php?method=activeQuote",
                     type: "POST",
                     data: {"quoteId":$(this).attr("data")},
+                    dataType: "json",
+                    complete: function(){
+                        tr.fadeOut(function(){
+                            jQuery(this).remove();
+                        });
+                    }
+                });
+            }
+            return false;
+        });
+
+        jQuery('.restore-row-contract').click(function(){
+            var tr = jQuery(this).closest('tr');
+            var c = confirm("Are you sure you want to restore Contract "+$(this).attr("data")+"?");
+            if(c){
+                var request = $.ajax({
+                    url: "../page/contractController.php?method=activeContract",
+                    type: "POST",
+                    data: {"contractId":$(this).attr("data")},
                     dataType: "json",
                     complete: function(){
                         tr.fadeOut(function(){

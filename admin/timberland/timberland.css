@@ -37,3 +37,26 @@ table .operation a{
 .panel-heading-logo{
     padding:5px 15px;
 }
+
+#editContractForm .panel-body{
+    padding: 5px 20px 10px 20px!important;
+    border-bottom:#e7e7e7 1px solid;
+}
+#editContractForm .form-group {
+    padding: 5px 0 15px;
+}
+
+.ui-datepicker{
+    z-index: 10000 !important;
+}
+
+.viewContainer{
+    box-shadow: none;
+}
+
+#ajaxViewRefQuote .panel-body{
+    border:none;
+}
+#ajaxViewRefQuote .viewContainer{
+    border: 1px solid #ccc;
+}

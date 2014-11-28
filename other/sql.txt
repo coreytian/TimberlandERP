@@ -35,3 +35,46 @@ ADD COLUMN `enableFloorLeveling` TINYINT(1) NULL DEFAULT 1 AFTER `enableDelivery
 ADD COLUMN `enableAt` TINYINT(1) NULL DEFAULT 1 AFTER `enableFloorLeveling`,
 ADD COLUMN `enableExtraItems` TINYINT(1) NULL DEFAULT 1 AFTER `enableAt`;
 
+
+
+//2014-11-26
+
+CREATE TABLE `erp_contracts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `quoteId` int(11) DEFAULT NULL,
+  `quoteNumber` varchar(45) DEFAULT NULL,
+  `contractNumber` varchar(45) DEFAULT NULL,
+  `contractor` varchar(255) DEFAULT NULL,
+  `contractorAddress` varchar(255) DEFAULT NULL,
+  `contractorPhone` varchar(45) DEFAULT NULL,
+  `clientName` varchar(45) DEFAULT NULL,
+  `clientMobile` varchar(45) DEFAULT NULL,
+  `clientPhone` varchar(45) DEFAULT NULL,
+  `clientAddress` varchar(255) DEFAULT NULL,
+  `clientEmail` varchar(45) DEFAULT NULL,
+  `description` text,
+  `description2` text,
+  `finalTotal` float DEFAULT NULL,
+  `paymentTerm1` float DEFAULT NULL,
+  `paymentTerm2` float DEFAULT NULL,
+  `paymentTerm3` float DEFAULT NULL,
+  `startDate` varchar(45) DEFAULT NULL,
+  `endDate` varchar(45) DEFAULT NULL,
+  `sign1` varchar(45) DEFAULT NULL,
+  `sign1Date` date DEFAULT NULL,
+  `sign2` varchar(45) DEFAULT NULL,
+  `sign2Date` date DEFAULT NULL,
+  `field1` varchar(255) DEFAULT NULL,
+  `filed2` varchar(255) DEFAULT NULL,
+  `filed3` varchar(255) DEFAULT NULL,
+  `filed4` varchar(255) DEFAULT NULL,
+  `field5` varchar(255) DEFAULT NULL,
+  `float1` float DEFAULT NULL,
+  `float2` float DEFAULT NULL,
+  `float3` float DEFAULT NULL,
+  `createTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updateTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `active` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;

@@ -60,6 +60,7 @@
             <ul class="nav nav-pills nav-stacked nav-bracket">
                 <li id="nav-dashboard"><a href="index.php"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
                 <li id="nav-quotes"><a href="quotes.php"><i class="fa fa-th-list"></i> <span>Quotes</span></a></li>
+                <li id="nav-contracts"><a href="contracts.php"><i class="fa fa-file-text-o"></i> <span>Contracts</span></a></li>
                 <li id="nav-makequotesPC"><a href="createQuote.php"><i class="fa fa-pencil"></i> <span>Make A Quote</span></a></li>
 <!--                <li id="nav-makequotes"><a href="../page/index.php"><i class="fa fa-tablet"></i> <span>Make A Quote On iPad</span></a></li>-->
                 <li id="nav-bin"><a href="bin.php"><i class="fa fa-trash-o"></i> <span>Recycle Bin</span></a></li>

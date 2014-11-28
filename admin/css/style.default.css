@@ -4602,23 +4602,3 @@ div.error label.error:before {
     }
 
 }
-
-
-table .operation a{
-    margin-right: 10px;
-}
-
-#emptyModal .modal-dialog{
-    width:800px;
-}
-#emptyModal .modal-content{
-    padding-top:10px;
-    padding-bottom:10px;
-}
-
-.operation .dropdown-menu{
-    left: -100px;
-}
-#editQuoteForm .form-group{
-    padding:10px 0;
-}
