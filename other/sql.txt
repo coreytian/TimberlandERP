@@ -78,3 +78,8 @@ CREATE TABLE `erp_contracts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+
+ALTER TABLE `timberland_erp`.`erp_contracts`
+ADD COLUMN `payment1Text` VARCHAR(65) NULL DEFAULT 'Deposit with order 10%' AFTER `finalTotal`,
+ADD COLUMN `payment2Text` VARCHAR(65) NULL DEFAULT 'On Delivery of material 70%' AFTER `paymentTerm1`,
+ADD COLUMN `payment3Text` VARCHAR(65) NULL DEFAULT 'Balance on completion 20%' AFTER `paymentTerm2`;

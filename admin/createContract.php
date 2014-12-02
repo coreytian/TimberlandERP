@@ -147,6 +147,10 @@ include("header.php");
         $('input#contractorAddress').val('Unit 2, 620-632 Botany Rd, Alexandria, NSW 2015');
         $('input#contractorPhone').val('02-8065 7710');
 
+        $('input#payment1Text').val('Deposit with order 10%');
+        $('input#payment2Text').val('On Delivery of material 70%');
+        $('input#payment3Text').val('Balance on completion 20%');
+
         <?php if(isset($_GET['fromQuote'])){ ?>
             var contractData = <?php echo json_encode($contractData); ?>;
             $('input#quoteId').val(contractData.quoteId);

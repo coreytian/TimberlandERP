@@ -106,37 +106,43 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row"style="padding-left:10px;margin-bottom: 10px;margin-top: 20px;">
+        <span style="line-height: 59px;">Payment Terms</span>
+        <button id="refreshPaymentTerms" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i> Calculate Payments</button>
+    </div>
+    <div class="row" style="margin-bottom: 10px;">
         <div class="col-sm-4">
-            <div class="form-group">
-                <label class="control-label">Deposit with order 10%</label>
-                <div class="input-group">
-                    <span class="input-group-addon">$</span>
-                    <input id="paymentTerm1" name="paymentTerm1" type="number" class="form-control" />
-                </div>
-            </div>
+                <input id="payment1Text" type="text" name="payment1Text" class="form-control"/>
         </div>
         <div class="col-sm-4">
-            <div class="form-group">
-                <label class="control-label">On Delivery of material 70%</label>
-                <div class="input-group">
-                    <span class="input-group-addon">$</span>
-                    <input id="paymentTerm2" name="paymentTerm2" type="number" class="form-control" />
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="form-group">
-                <label class="control-label">Balance on completion 20%</label>
-                <div class="input-group">
-                    <span class="input-group-addon">$</span>
-                    <input id="paymentTerm3" name="paymentTerm3" type="number" class="form-control" />
-                </div>
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input id="paymentTerm1" name="paymentTerm1" type="number" class="form-control" />
             </div>
         </div>
     </div>
-    <button id="refreshPaymentTerms" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i> Calculate Payments</button>
-
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-sm-4">
+            <input id="payment2Text" type="text" name="payment2Text" class="form-control"/>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input id="paymentTerm2" name="paymentTerm2" type="number" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <input id="payment3Text" type="text" name="payment3Text" class="form-control"/>
+        </div>
+        <div class="col-sm-4">
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input id="paymentTerm3" name="paymentTerm3" type="number" class="form-control" />
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="panel-body-border panel-body">

@@ -21,8 +21,26 @@ function checkChinese($string, $pdf){
     }
 }
 
+// Extend the TCPDF class to create custom Header and Footer
+class MYPDF extends TCPDF {
+
+
+    // Page footer
+    public function Footer() {
+        // Position at 15 mm from bottom
+        $this->SetY(-15);
+        // Set font
+        $this->SetFont('helvetica', '', 10);
+        $footer = "Timberland Flooring    Unit 2, 620-632 Botany Rd, Alexandria, NSW, 2015\nTel: 61 2 8065 7710    Fax: 61 2 8065 7380    ABN: 38164349320";
+
+        // Page number
+        $this->MultiCell(0, 0, $footer, 0, 'C', 0, 0, '', '', true, 0, false, true, 0, 'T', false);
+        //$this->Cell(0, 20, $footer, 0, false, 'C', 0, '', 1, false, 'T', 'M');
+    }
+}
+
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -33,7 +51,6 @@ $pdf->SetSubject('Timberland Flooring Quotation');
 $pdf->SetTextColor(20,20,20);
 // remove default header/footer
 $pdf->setPrintHeader(false);
-$pdf->setPrintFooter(false);
 
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);

@@ -15,9 +15,13 @@ $( document ).ready(function() {
     init();
 
     function init(){
+
+        // new contract
         if($("input#id").val()!=''){
             data['newContract'] = 1;
         }
+
+        // contract from quote
         if($("input#quoteId").val()!=''){
             data['quoteId'] = $("input#quoteId").val();
             $("#ajaxViewRefQuote").load('viewQuoteFromDB.php?onlyShowData=1&quoteid=' + $("input#quoteId").val());
@@ -95,7 +99,6 @@ $( document ).ready(function() {
 
 
     function calculatePaymentTerms(){
-
         var total = parseNumber($('#finalTotal').val());
         var term1 = (total*0.1).toFixed(2);
         var term2 = (total*0.7).toFixed(2);
@@ -103,6 +106,9 @@ $( document ).ready(function() {
         $("#paymentTerm1").displayVal(term1);
         $("#paymentTerm2").displayVal(term2);
         $("#paymentTerm3").displayVal(term3);
+        $('input#payment1Text').displayVal('Deposit with order 10%');
+        $('input#payment2Text').displayVal('On Delivery of material 70%');
+        $('input#payment3Text').displayVal('Balance on completion 20%');
 
     }
 

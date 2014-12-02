@@ -50,8 +50,8 @@
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
                                   <li><a href="" data="'.$row['id'].'" class="delete-row"><i class="fa fa-trash-o" style="padding-right:10px"></i>Delete</a></li>
-                                  <li><a target="_blank" href="contractPDF.php?id='.$row['id'].'"><i class="fa fa-file-pdf-o" style="padding-right:10px"></i>Open PDF in Browser</a></li>
-                                  <li><a href="contractPDF.php?id='.$row['id'].'&download=1"><i class="fa fa-download" style="padding-right:10px"></i>Download PDF file</a></li>
+                                  <li><a target="_blank" href="contractPDF.php?contractid='.$row['id'].'"><i class="fa fa-file-pdf-o" style="padding-right:10px"></i>Open PDF in Browser</a></li>
+                                  <li><a href="contractPDF.php?contractid='.$row['id'].'&download=1"><i class="fa fa-download" style="padding-right:10px"></i>Download PDF file</a></li>
                                 </ul>
                              </div>'.
                             '</td>'.

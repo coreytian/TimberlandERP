@@ -1,8 +1,8 @@
 <?php
 include_once("../page/contractController.php");
-$quoteId = $_GET['contractid'];
+$contractId = $_GET['contractid'];
 
-$quoteData = $contract->getContract($quoteId);
+$contractData = $contract->getContract($contractId);
 
 function check_and_number_format($value){
     $value = trim($value);
@@ -16,14 +16,30 @@ require_once('../include/tcpdf/examples/config/tcpdf_config_alt.php');
 require_once('../include/tcpdf/tcpdf.php');
 
 function checkChinese($string, $pdf){
-    if(preg_match('/\p{Han}+/u', $string)){
-        $pdf->SetFont('kozminproregular', '', 10);
+//    if(preg_match('/\p{Han}+/u', $string)){
+//        $pdf->SetFont('kozminproregular', '');
+//    }
+}
+// Extend the TCPDF class to create custom Header and Footer
+class MYPDF extends TCPDF {
+
+
+    // Page footer
+    public function Footer() {
+        // Position at 15 mm from bottom
+        $this->SetY(-15);
+        // Set font
+        $this->SetFont('helvetica', '', 10);
+        $footer = "Timberland Flooring    Unit 2, 620-632 Botany Rd, Alexandria, NSW, 2015\nTel: 61 2 8065 7710    Fax: 61 2 8065 7380    ABN: 38164349320";
+
+        // Page number
+        $this->MultiCell(0, 0, $footer, 0, 'C', 0, 0, '', '', true, 0, false, true, 0, 'T', false);
+        //$this->Cell(0, 20, $footer, 0, false, 'C', 0, '', 1, false, 'T', 'M');
     }
 }
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
+$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('Timberland Flooring');
@@ -31,15 +47,13 @@ $pdf->SetTitle('Timberland Flooring Contract');
 $pdf->SetSubject('Timberland Flooring Contract');
 
 $pdf->SetTextColor(20,20,20);
-// remove default header/footer
 $pdf->setPrintHeader(false);
-$pdf->setPrintFooter(false);
 
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
 // set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, '10px', PDF_MARGIN_RIGHT);
+$pdf->SetMargins(18, '6', 18);
 
 // set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -57,265 +71,213 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 
 // set font
 //$fontname = $pdf->addTTFfont('../fonts/ARIALUNI.ttf', 'TrueTypeUnicode', '', 32);
-$pdf->SetFont('helvetica', '', 14);
-
+$pdf->SetFont('helvetica', '', 12);
+$pdf->SetLineWidth(0.1);
 // add a page，
 $pdf->AddPage();
 
 
-$html = '<img src="../include/img/timberlogo.jpg" style="margin:0;width:150px"/><h4>Timberland Flooring Quotation</h4>';
+$html = '<img src="../include/img/timberlogo.jpg" style="margin:0;width:150px"/>';
 
 $pdf->writeHTML($html, true, false, true, false, 'C');
 
+$pdf->SetFont('helvetica', 'B', 18);
+$pdf->setCellPaddings(0,0,10,0);
+$pdf->MultiCell(0, 8, $contractData['contractNumber'], 0, 'R', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+
+$pdf->SetFont('helvetica', '', 14);
+$html= "<h4>TIMBERLAND FLOORING CONTRACT</h4>";
+$pdf->writeHTML($html, true, false, true, false, 'C');
+
 $pdf->SetFont('helvetica', '', 10);
-$pdf->SetTopMargin(55);
-$subtable = '<table border="1" cellspacing="6" cellpadding="4"><tr><td>a</td><td>b</td></tr><tr><td>c</td><td>d</td></tr></table>';
-
-$consultants = empty($quoteData['consultant2'])?$quoteData['consultant1']:$quoteData['consultant1'].', '.$quoteData['consultant2'];
-
-$html = '<table style="" border="0" >
-<tr>
-<td width="45%">
-<table border="0" cellspacing="5">
-<tr><td height="0" width="40%"><b>Quote Number</b></td><td width="60%">'.$quoteData['quoteNumber'].'</td></tr>
-<tr><td height="0"><b>Quote Date</b></td><td>'.$quoteData['quoteDate'].'</td></tr>
-<tr><td height="0"><b>Consultant</b></td><td>'.$consultants.'</td></tr>
-</table>
-</td>
-<td width="55%">
-<table  border="0"  cellspacing="5">
-<tr><td width="20%"></td><td  width="20%" height="0"><b>Name</b></td><td width="60%">'.$quoteData['clientName'].'</td></tr>
-<tr><td></td><td height="0"><b>Address</b></td><td>'.$quoteData['clientAddress'].'</td></tr>
-<tr><td></td><td height="0"><b>Phone</b></td><td>'.$quoteData['clientPhone'].'</td></tr>
-<tr><td></td><td height="0"><b>Email</b></td><td>'.$quoteData['clientEmail'].'</td></tr>
-</table>
-</td>
-</tr>
-</table>
-';
-
-// output the HTML content
-$pdf->writeHTML($html, true, false, true, false, '');
-
-/*$html = '<table cellpadding="10px" border="1">
-<tr style="text-align:center"><th>Item</th><th>Description</th><th>Unit Price</th><th>Quantity</th><th>Total Price</th></tr>
-<tr><td style="border-bottom:hidden !important;">1</td><td style="border-left:1px;solid">2</td><td>3</td><td>4</td><td>5</td></tr>
-<tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
-</table>';
-$pdf->writeHTML($html, true, false, true, false, '');*/
-
-// set border width
-$pdf->SetLineWidth(0.2);
-
-// set color for cell border
-$pdf->SetDrawColor(255,255,255);
-
-// set filling color
-$pdf->SetFillColor(230,230,230);
-// set cell padding
-$pdf->setCellPaddings(2, 2, 2, 2);
+$pdf->SetTopMargin(52);
 
 
-$columnWidth = array(40,60,25,25,30);
+$pdf->setCellHeightRatio(1);
+$pdf->SetDrawColor(0,0,0);
+$pdf->SetTextColor(255,255,255);
+$pdf->SetFillColor(0,0,0);
+$pdf->setCellPaddings(0,1,0,0);
+$pdf->MultiCell(22, 5, 'BETWEEN', 1, 'C', 1, 0, '', '', true, 0, false, true, 0, 'M', false);
+$pdf->MultiCell('', 5, '', 'TR', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
 
+$pdf->setCellHeightRatio(0.3);
+$pdf->setCellPaddings(0, 0,0, 0);
+$pdf->MultiCell('', 0.1, '', 'LR', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->setCellHeightRatio(1);
+$pdf->setCellPaddings(2, 1, 2, 1);
 
-// set cell height ratio
-//$pdf->setCellHeightRatio(3);
-$pdf->MultiCell($columnWidth[0], 0, '<b>Item</b>', 1, 'L', 1, 0, '', '', true, 0, true, true, 0, 'T', false);
-$pdf->MultiCell($columnWidth[1], 0, '<b>Description</b>', 1, 'L', 1, 0, '', '', true, 0, true, true, 0, 'T', false);
-$pdf->MultiCell($columnWidth[2], 0, '<b>Unit Price</b>', 1, 'R', 1, 0, '', '', true, 0, true, true, 0, 'T', false);
-$pdf->MultiCell($columnWidth[3], 0, '<b>Quantity</b>', 1, 'R', 1, 0, '', '', true, 0, true, true, 0, 'T', false);
-$pdf->MultiCell($columnWidth[4], 0, '<b>Total Price</b>', 1, 'R', 1, 1, '', '', true, 0, true, true, 0, 'T', false);
+$pdf->SetTextColor(0,0,0);
+$pdf->MultiCell(25, 6, 'Contractor', 'L', 'L', 0, 0, '', '', true, 0, false, true, 0, 'T', false);
 
-$pdf->SetDrawColor(230,230,230);
-// ---------------------------------------------------------
-if($quoteData['enableTimber']==1) {
-    $timber = array('Timber',
-                    'Timber Type: ' . $quoteData['timberType'] . "\nSize: " . $quoteData['timberSize'] . "\nWastage: " . $quoteData['timberWastage'] . '%',
-                    '$'.check_and_number_format($quoteData['timberPrice']),
-                    $quoteData['timberArea'].' m<sup style="font-size: 8px;">2</sup>',
-                    '$'.check_and_number_format($quoteData['timberTotal']));
-    $pdf->MultiCell($columnWidth[0], 18, $timber[0], 'B', 'L', false, 0, '', '', true, 0, false, true, 18, 'T', true);
-    $pdf->MultiCell($columnWidth[1], 18, $timber[1], 'B', 'L', false, 0, '', '', true, 0, false, true, 18, 'T', true);
-    $pdf->MultiCell($columnWidth[2], 18, $timber[2], 'B', 'R', false, 0, '', '', true, 0, false, true, 18, 'T', true);
-    $pdf->MultiCell($columnWidth[3], 18, $timber[3], 'B', 'R', false, 0, '', '', true, 0, true, true, 18, 'T', true);
-    $pdf->MultiCell($columnWidth[4], 18, $timber[4], 'B', 'R', false, 1, '', '', true, 0, false, true, 18, 'T', true);
-}
-// set cell padding
-$minH = 10;
-$maxH = 10;
-$pdf->setCellPaddings(2, 3, 2, 2);
-if($quoteData['enableUnderlay']==1) {
-    $underlay = array('Underlay',
-        '',
-        '$'.check_and_number_format($quoteData['underlayPrice']),
-        $quoteData['underlayArea'].' m<sup style="font-size: 8px;">2</sup>',
-        '$'.check_and_number_format($quoteData['underlayTotal']));
+$pdf->SetFillColor(255,228,181);
+$pdf->MultiCell(100, 6, $contractData['contractor'], 1, 'L', 1, 0, '', '', true, 0, false, true, 0, 'T', false);
 
-    $pdf->MultiCell($columnWidth[0], $minH, $underlay[0], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[1], $minH, $underlay[1], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[2], $minH, $underlay[2], 'B', 'R', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[3], $minH, $underlay[3], 'B', 'R', false, 0, '', '', true, 0, true, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[4], $minH, $underlay[4], 'B', 'R', false, 1, '', '', true, 0, false, true, $maxH, 'T', true);
-}
-if($quoteData['enableCarpetRemoval']==1) {
-    $carpet = array('Carpet Removal',
-        '',
-        '$'.check_and_number_format($quoteData['carpetRemovalPrice']),
-        $quoteData['carpetRemovalArea'].' m<sup style="font-size: 8px;">2</sup>',
-        '$'.check_and_number_format($quoteData['carpetRemovalTotal']));
+$pdf->MultiCell('', 6, '', 'R', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
 
-    $pdf->MultiCell($columnWidth[0], $minH, $carpet[0], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[1], $minH, $carpet[1], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[2], $minH, $carpet[2], 'B', 'R', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[3], $minH, $carpet[3], 'B', 'R', false, 0, '', '', true, 0, true, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[4], $minH, $carpet[4], 'B', 'R', false, 1, '', '', true, 0, false, true, $maxH, 'T', true);
-}
-if($quoteData['enableFurnitureRemoval']==1) {
-    $furniture = array('Furniture Removal',
-        '',
-        '$'.check_and_number_format($quoteData['furnitureRemovalPrice']),
-        $quoteData['furnitureRemovalQuantity'],
-        '$'.check_and_number_format($quoteData['furnitureRemovalTotal']));
+$pdf->setCellHeightRatio(0.5);
+$pdf->setCellPaddings(0, 0,0, 0);
+$pdf->MultiCell('', 1, '', 'LR', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->setCellHeightRatio(1);
+$pdf->setCellPaddings(2, 1, 2, 1);
 
-    $pdf->MultiCell($columnWidth[0], $minH, $furniture[0], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[1], $minH, $furniture[1], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[2], $minH, $furniture[2], 'B', 'R', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[3], $minH, $furniture[3], 'B', 'R', false, 0, '', '', true, 0, true, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[4], $minH, $furniture[4], 'B', 'R', false, 1, '', '', true, 0, false, true, $maxH, 'T', true);
-}
-if($quoteData['enableFloorLeveling']==1) {
-    $floor = array('Floor Leveling',
-        '',
-        '$'.check_and_number_format($quoteData['floorLevelingPrice']),
-        $quoteData['floorLevelingArea'].' m<sup style="font-size: 8px;">2</sup>',
-        '$'.check_and_number_format($quoteData['floorLevelingTotal']));
+$pdf->MultiCell(25, 6, 'Address', 'L', 'L', 0, 0, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->MultiCell(100, 6, $contractData['contractorAddress'], 1, 'L', 1, 0, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->MultiCell(16, 6, 'Phone', 0, 'L', 0, 0, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->MultiCell(28, 6, $contractData['contractorPhone'], 1, 'L', 1, 0, '', '', true, 0, false, true, 0, 'M', false);
+$pdf->MultiCell('', 6, '', 'R', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
 
-    $pdf->MultiCell($columnWidth[0], $minH, $floor[0], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[1], $minH, $floor[1], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[2], $minH, $floor[2], 'B', 'R', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[3], $minH, $floor[3], 'B', 'R', false, 0, '', '', true, 0, true, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[4], $minH, $floor[4], 'B', 'R', false, 1, '', '', true, 0, false, true, $maxH, 'T', true);
-}
-if($quoteData['enableInstall']==1) {
-    if($quoteData['installChoice']=='skirting') {
-        $installChoice = $quoteData['skirtingChoice']=='skirtingChoice2'?"Supply & Install":"Install";
-        $install = array('Skirting',
-            $installChoice,
-            '$'.check_and_number_format($quoteData['skirtingPrice']),
-            $quoteData['skirtingLength'].' m',
-            '$'.check_and_number_format($quoteData['skirtingTotal']));
-    } else {
-        $install = array('Scotia',
-            '',
-            '',
-            '',
-            '$0');
-    }
+$pdf->setCellPaddings(0,1,0,0);
+$pdf->SetTextColor(255,255,255);
+$pdf->SetFillColor(0,0,0);
+$pdf->MultiCell(22, 5, 'AND', 1, 'C', 1, 0, '', '', true, 0, false, true, 0, 'M', false);
+$pdf->MultiCell('', 5, '', 'R', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->setCellPaddings(2,1,2,1);
+$pdf->SetTextColor(0,0,0);
+$pdf->SetFillColor(255,228,181);
 
+$pdf->setCellHeightRatio(0.3);
+$pdf->setCellPaddings(0, 0,0, 0);
+$pdf->MultiCell('', 1, '', 'LR', 'L', 0, 1, '', '', true, 0, false, true, 1, 'T', false);
+$pdf->setCellHeightRatio(1);
+$pdf->setCellPaddings(2, 1, 2, 1);
 
-    $pdf->MultiCell($columnWidth[0], $minH, $install[0], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[1], $minH, $install[1], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[2], $minH, $install[2], 'B', 'R', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[3], $minH, $install[3], 'B', 'R', false, 0, '', '', true, 0, true, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[4], $minH, $install[4], 'B', 'R', false, 1, '', '', true, 0, false, true, $maxH, 'T', true);
-}
-if($quoteData['enableDelivery']==1) {
-    $delivery = array('Delivery Fee',
-        '',
-        '',
-        '',
-        '$'.check_and_number_format($quoteData['deliveryFeeTotal']));
+$pdf->MultiCell(25, 6, 'Owner', 'L', 'L', 0, 0, '', '', true, 0, false, true, 7, 'M', false);
+$pdf->MultiCell(100, 6, $contractData['clientName'], 1, 'L', 1, 0, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->setCellPaddings(2, 0, 2, 0);
+$pdf->MultiCell(16, 6, 'Quote Ref No.', 0, 'L', 0, 0, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->setCellPaddings(2, 1, 2, 1);
+$pdf->MultiCell(28, 6, $contractData['quoteNumber'], 1, 'L', 1, 0, '', '', true, 0, false, true, 0, 'M', false);
+$pdf->MultiCell('', 6, '', 'R', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
 
-    $pdf->MultiCell($columnWidth[0], $minH, $delivery[0], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[1], $minH, $delivery[1], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[2], $minH, $delivery[2], 'B', 'R', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[3], $minH, $delivery[3], 'B', 'R', false, 0, '', '', true, 0, true, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[4], $minH, $delivery[4], 'B', 'R', false, 1, '', '', true, 0, false, true, $maxH, 'T', true);
-}
-if($quoteData['enableAt']==1) {
-    $at = array('Aluminum Trim',
-        'Color: '.$quoteData['atColor'],
-        '$'.check_and_number_format($quoteData['atPrice']),
-        $quoteData['atLength'].' m',
-        '$'.check_and_number_format($quoteData['atTotal']));
+$pdf->setCellHeightRatio(0.5);
+$pdf->setCellPaddings(0, 0,0, 0);
+$pdf->MultiCell('', 1, '', 'LR', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->setCellHeightRatio(1);
+$pdf->setCellPaddings(2, 1, 2, 1);
 
-    $pdf->MultiCell($columnWidth[0], $minH, $at[0], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[1], $minH, $at[1], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[2], $minH, $at[2], 'B', 'R', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[3], $minH, $at[3], 'B', 'R', false, 0, '', '', true, 0, true, true, $maxH, 'T', true);
-    $pdf->MultiCell($columnWidth[4], $minH, $at[4], 'B', 'R', false, 1, '', '', true, 0, false, true, $maxH, 'T', true);
-}
-if($quoteData['enableExtraItems']==1) {
-    for($i=1;$i<=3;$i++){
-        if(!empty($quoteData['item'.$i.'Total']) && $quoteData['item'.$i.'Total']!=0) {
-            $extra = array('Extra Item',
-                $quoteData['item'.$i.'Name'],
-                '$'.check_and_number_format($quoteData['item'.$i.'Price']),
-                $quoteData['item'.$i.'Quantity'],
-                '$'.check_and_number_format($quoteData['item'.$i.'Total']));
-            $pdf->MultiCell($columnWidth[0], $minH, $extra[0], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-            $pdf->MultiCell($columnWidth[1], $minH, $extra[1], 'B', 'L', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-            $pdf->MultiCell($columnWidth[2], $minH, $extra[2], 'B', 'R', false, 0, '', '', true, 0, false, true, $maxH, 'T', true);
-            $pdf->MultiCell($columnWidth[3], $minH, $extra[3], 'B', 'R', false, 0, '', '', true, 0, true, true, $maxH, 'T', true);
-            $pdf->MultiCell($columnWidth[4], $minH, $extra[4], 'B', 'R', false, 1, '', '', true, 0, false, true, $maxH, 'T', true);
-         }
-    }
-}
-$pdf->Ln(3);
-$notesY = $pdf->GetY();
-$pdf->setCellPaddings(0, 0, 2, 0);
-$cell1Width = 50;
-$cell2Width = 30;
-$cell1X = 115;
+$pdf->MultiCell(25, 6, 'Mob', 'L', 'L', 0, 0, '', '', true, 0, false, true, 0, 'M', false);
+$pdf->MultiCell(40, 6, $contractData['clientMobile'], 1, 'L', 1, 0, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->MultiCell(20, 6, 'Phone', 'L', 'L', 0, 0, '', '', true, 0, false, true, 0, 'M', false);
+$pdf->MultiCell(40, 6, $contractData['clientPhone'], 1, 'L', 1, 0, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->MultiCell('', 6, '', 'R', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', true);
+
+$pdf->setCellHeightRatio(0.5);
+$pdf->setCellPaddings(0, 0,0, 0);
+$pdf->MultiCell('', 1, '', 'LR', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->setCellHeightRatio(1);
+$pdf->setCellPaddings(2, 1, 2, 1);
+
+$pdf->MultiCell(25, 6, 'Address', 'L', 'L', 0, 0, '', '', true, 0, false, true, 0, 'M', false);
+$pdf->MultiCell(100, 7, $contractData['clientAddress'], 1, 'L', 1, 0, '', '', true, 0, false, true, 8, 'M', true);
+$pdf->MultiCell('', 6, '', 'R', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+
+$pdf->setCellHeightRatio(0.5);
+$pdf->setCellPaddings(0, 0,0, 0);
+$pdf->MultiCell('', 4, '', 'LR', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->setCellHeightRatio(1);
+$pdf->setCellPaddings(2, 1, 2, 1);
+
+$pdf->MultiCell(25, 6, 'Email', 'L', 'L', 0, 0, '', '', true, 0, false, true, 6, 'M', false);
+$pdf->MultiCell(100, 6, $contractData['clientEmail'], 1, 'L', 1, 0, '', '', true, 0, false, true, 6, 'M', false);
+$pdf->MultiCell('', 6, '', 'R', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+
+$pdf->setCellPaddings(0, 0,0, 0);
+$pdf->MultiCell('', 1, '', 'LBR', 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->setCellPaddings(2, 1, 2, 1);
 
 $pdf->SetFont('helvetica', 'B', 10);
-$pdf->MultiCell($cell1Width, 8, 'Sub Total:', 0, 'R', false, 0, $cell1X, '', true, 0, false, true, 8, 'M', true);
-$pdf->SetFont('helvetica', '', 10);
-$pdf->MultiCell($cell2Width, 8, '$'.check_and_number_format($quoteData['calculatedTotal']), 0, 'R', false, 1, '', '', true, 0, false, true, 8, 'M', true);
+$pdf->MultiCell('', 8, 'DESCRIPTION OF WORKS', 0, 'L', 0, 1, '', '', true, 0, false, true, 8, 'B', false);
+$pdf->SetFont('helvetica', '', 11);
 
-$diff =  $quoteData['finalTotal'] - $quoteData['calculatedTotal'];
-if($diff > 0){
-    $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->MultiCell($cell1Width, 8, 'Add:', 0, 'R', false, 0, $cell1X, '', true, 0, false, true, 8, 'M', true);
-    $pdf->SetFont('helvetica', '', 10);
-    $pdf->MultiCell($cell2Width, 8, '+'.check_and_number_format($diff), 0, 'R', false, 1, '', '', true, 0, false, true, 8, 'M', true);
-} elseif($diff < 0){
-    $pdf->SetFont('helvetica', 'B', 10);
-    $pdf->MultiCell($cell1Width, 8, 'Discount:', 0, 'R', false, 0, $cell1X, '', true, 0, false, true, 8, 'M', true);
-    $pdf->SetFont('helvetica', '', 10);
-    $pdf->MultiCell($cell2Width, 8, check_and_number_format($diff), 0, 'R', false, 1, '', '', true, 0, false, true, 8, 'M', true);
+$pdf->MultiCell('', 70, $contractData['description'], 1, 'L', 1, 1, '', '', true, 0, false, true, 70, 'T', true);
+
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->MultiCell('', 8, 'PAYMENT TERMS', 0, 'L', 0, 1, '', '', true, 0, false, true, 8, 'B', false);
+$pdf->SetFont('helvetica', '', 10);
+
+$y = $pdf->GetY();
+$pdf->MultiCell(65, 6, $contractData['payment1Text'], 1, 'L', 1, 0, '', '', true, 0, false, true, 6, 'M', false);
+$pdf->MultiCell(30, 6, '$'.check_and_number_format($contractData['paymentTerm1']), 1, 'L', 1, 1, '', '', true, 0, false, true, 6, 'M', false);
+
+$pdf->MultiCell(65, 6, $contractData['payment2Text'], 1, 'L', 1, 0, '', '', true, 0, false, true, 6, 'M', false);
+$pdf->MultiCell(30, 6, '$'.check_and_number_format($contractData['paymentTerm2']), 1, 'L', 1, 1, '', '', true, 0, false, true, 6, 'M', false);
+
+$pdf->MultiCell(65, 6, $contractData['payment3Text'], 1, 'L', 1, 0, '', '', true, 0, false, true, 6, 'M', false);
+$pdf->MultiCell(30, 6, '$'.check_and_number_format($contractData['paymentTerm3']), 1, 'L', 1, 1, '', '', true, 0, false, true, 6, 'M', false);
+
+$pdf->SetFillColor(255,255,255);
+$pdf->MultiCell(65, 6, 'Total Price (Approximately)', 1, 'L', 1, 0, '', '', true, 0, false, true, 6, 'M', false);
+$pdf->SetFillColor(255,228,181);
+$pdf->MultiCell(30, 6, '$'.check_and_number_format($contractData['finalTotal']), 1, 'L', 1, 1, '', '', true, 0, false, true, 6, 'M', false);
+
+$pdf->SetFont('helvetica', 'I', 8.5);
+$paymentNotes= 'Note: By signing this contract you agree to be bound by the General Conditions of Contract on the reverse of this page and give permission to the Contractor under the Privacy Act 1988 section 18N1 (b) to give or get information about your credit arrangements from a credit provider or assess information provided by a credit reporting agency.';
+$pdf->SetFillColor(255,255,255);
+$pdf->MultiCell('', 24, $paymentNotes, 1, 'L', 1, 1, 113, $y, true, 0, false, true, 24, 'M', true);
+$pdf->SetFont('helvetica', '', 10);
+
+$pdf->MultiCell('', 5, '', 0, 'L', 0, 1, '', '', true, 0, false, true, 5, 'B', false);
+
+
+$pdf->SetFillColor(255,255,255);
+$pdf->MultiCell(55, 6, 'Approximate time to start', 1, 'L', 1, 0, '', '', true, 0, false, true, 6, 'M', false);
+$pdf->MultiCell(55, 6, 'Date for practical completion', 1, 'L', 1, 1, '', '', true, 0, false, true, 6, 'M', false);
+
+$pdf->SetFillColor(255,228,181);
+$pdf->MultiCell(55, 6, $contractData['startDate'], 1, 'L', 1, 0, '', '', true, 0, false, true, 6, 'M', false);
+$pdf->MultiCell(55, 6, $contractData['endDate'], 1, 'L', 1, 1, '', '', true, 0, false, true, 6, 'M', false);
+
+$pdf->MultiCell('', 5, '', 0, 'L', 0, 1, '', '', true, 0, false, true, 5, 'B', false);
+
+$ySignbox = $pdf->GetY();
+$xSignbox = $pdf->GetX();
+$ySignboxInside = $ySignbox +5;
+$xSignboxInside = $xSignbox +5;
+
+if($ySignbox>251){
+    $pdf->AddPage();
+    $pdf->SetAbsY(6);
+    $ySignbox = $pdf->GetY();
+    $xSignbox = $pdf->GetX();
+    $ySignboxInside = $ySignbox +5;
+    $xSignboxInside = $xSignbox +5;
+
 }
-$pdf->SetFont('helvetica', 'B', 15);
-$pdf->MultiCell($cell1Width, 10, 'Total:', 0, 'R', 1, 0, $cell1X, '', true, 0, false, true, 10, 'M', true);
-$pdf->SetFont('helvetica', '', 13);
-$pdf->MultiCell($cell2Width, 10, '$'.check_and_number_format($quoteData['finalTotal']), 0, 'R', 1, 1, '', '', true, 0, false, true, 10, 'M', true);
 
-$pdf->SetFont('helvetica', 'B', 10);
-$pdf->MultiCell($cell1Width, 7, 'Deposit with order 10%:', 0, 'R', false, 0, $cell1X, '', true, 0, false, true, 8, 'M', true);
+$pdf->setCellPaddings(0, 0,0, 0);
+$pdf->MultiCell('', 21, '', 1, 'L', 0, 1, '', '', true, 0, false, true, 0, 'T', false);
+$pdf->setCellPaddings(2, 1, 2, 1);
+
+$pdf->MultiCell(45, 9, $contractData['sign1'], 1, 'C', 1, 1, $xSignboxInside, $ySignboxInside, true, 0, false, true, 9, 'M', false);
+$pdf->MultiCell(48, 7, 'Signed (Installation Team)', 0, 'C', 0, 1, $xSignboxInside-1, '', true, 0, false, true, 7, 'M', false);
+
+$pdf->MultiCell(32, 9, $contractData['sign1Date'], 1, 'C', 1, 1, $xSignboxInside+48, $ySignboxInside, true, 0, false, true, 9, 'M', false);
+$pdf->MultiCell(32, 7, 'Date', 0, 'C', 0, 1, $xSignboxInside+48, '', true, 0, false, true, 7, 'M', false);
+
+$pdf->MultiCell(45, 9, $contractData['sign2'], 1, 'C', 1, 1, $xSignboxInside+83, $ySignboxInside, true, 0, false, true, 9, 'M', false);
+$pdf->MultiCell(45, 7, 'Signed (Owner)', 0, 'C', 0, 1, $xSignboxInside+83, '', true, 0, false, true, 7, 'M', false);
+
+$pdf->MultiCell(32, 9, $contractData['sign2Date'], 1, 'C', 1, 1, $xSignboxInside+131, $ySignboxInside, true, 0, false, true, 9, 'M', false);
+$pdf->MultiCell(32, 7, 'Date', 0, 'C', 0, 1, $xSignboxInside+131, '', true, 0, false, true, 7, 'M', false);
+
+
+$pdf->AddPage();
+$pdf->SetAbsY(6);
+
+
+$pdf->SetFont('helvetica', 'BU', 11);
+$pdf->MultiCell('', 10, 'TERMS AND CONDITIONS', 0, 'C', 0, 1,'', '', true, 0, false, true, '', 'T', false);
 $pdf->SetFont('helvetica', '', 10);
-$pdf->MultiCell($cell2Width, 7, '$'.check_and_number_format($quoteData['paymentTerm1']), 0, 'R', false, 1, '', '', true, 0, false, true, 8, 'M', true);
 
-$pdf->SetFont('helvetica', 'B', 10);
-$pdf->MultiCell($cell1Width, 7, 'On Delivery of material 70%:', 0, 'R', false, 0, $cell1X, '', true, 0, false, true, 8, 'M', true);
-$pdf->SetFont('helvetica', '', 10);
-$pdf->MultiCell($cell2Width, 7, '$'.check_and_number_format($quoteData['paymentTerm2']), 0, 'R', false, 1, '', '', true, 0, false, true, 8, 'M', true);
+$tAndc ="<div style=\"font-size:9px;line-height: 10px\"><b style=\"font-size:10px\">1. Our main obligations:</b><br/>We will supply all the material required and complete the jobs according to specification in the time frame specified.<br/><br/><b style=\"font-size:10px\">2. Payment</b><br/>a) You must pay us the contract price by way of the progress payments specified in this contract.<br/>b) The “practical completion” payment is due when all works are completed and is ready for use in all ways relevant to the contract. “Practical completion” means that the works are complete in accordance with the agreement except for any minor omissions and/or defects.<br/>c) We may charge interest on any overdue payments at a rate of 2% p.a. higher than the rate charged by our principal bankers.<br/>d) Title of the goods does not pass until the invoice amount is paid in full.<br/><br/><b style=\"font-size:10px\">3. Access and use of facilities:</b><br/>a) You must give us uninterrupted access to the site to check measures, and to deliver and, if installation is included in this contract, to install the product.<br/>b) If we ask for access to deliver the product, and you cannot give us that access within 14 days, you must pay us the “On-Delivery” payment<br/><br/><b style=\"font-size:10px\">4. Check Measuring:</b><br/>We may check measure the places where the product is to be installed, and if necessary, modify the product to conform to the checked measurements.<br/><br/><b style=\"font-size:10px\">5. Our warranty:</b><br/>In addition to your rights under law, we warrant that our work of making and installing the product is, and the materials supplied by us are, free of defects at the time of completion of installation. We also give the statutory warranties stated in the Schedule to this agreement.<br/>However, subject to law, we do not have to fix:<br/>a) any problem caused by misuse, abuse, wear and tear or normal shrinkage or movement; or,<br/>b) any defect in, or problem caused by work, materials, or appliances supplied by you.<br/><br/><b style=\"font-size:10px\">6. Our right to fix:</b><br/>a) If at any time you claim the product or workmanship is defective, you must tell us by written notice as soon as possible.<br/>b)We are only to fix defects for which clause 5 makes us responsible.<br/>c) If we accept responsibility we have the right to fix the defect, but must do so within 40 days.<br/><br/><b style=\"font-size:10px\">7. Colour Variations:</b><br/>It is important you note that the colour and grain of timer, granite and other natural materials can vary. We will use our best efforts to match the colour and grain of the product, to any sample selected or provided by you, but we have no liability for the natural colour and grain variation of timber, granite, or other natural material.<br/><br/><b style=\"font-size:10px\">8. Surplus materials:</b><br/>Unless you and we have a different agreement of page one of this contract:a) demolished materials remain your property, and,<br/>b) materials we bring to site which are surplus remain our property.<br/><br/><b style=\"font-size:10px\">9. Subcontracting</b><br/>We may sub-contract any of our obligations.<br/>You must not give instructions to our subcontractors or workers on the site.<br/><br/><b style=\"font-size:10px\">10. Floating Installation Method</b><br/>For bamboo, laminate and floating floors, the installation method allows the floor boards to float on your subfloor, typically supported by a layer of acoustic underlay. It is common to hear a nominal amount of hollowness and feel a nominal amount of movement given that the floating floor is not 'fixed' to the subfloor. They are typical characteristics of a floating installation method. A new floor typically takes 3-5 weeks to „settle‟ and hollowness, if any, generally improves during this period. <br/><br/><b style=\"font-size:10px\">11. Delays</b><br/>We are not responsible for any delay caused by something beyond our control including any failure by you to:<br/>a) make a selection,<br/>b) have the site ready for the project,<br/>c) notify us that the site is ready for the project.<br/><br/><b style=\"font-size:10px\">12. Variations at your request:</b><br/>A “variation” means any change in the product or any extra work. If you request a variation, we will give you a written quote detailing the price and the estimate time to do it. If you sign the acceptance of the quote, we will then do the variation in the time agreed. If the price of the variation is more than 20% of the contract price then you must first pay us an agreed deposit. We can claim for a variation as soon as we have completed it.<br/><br/><b style=\"font-size:10px\">13. Hidden problems:</b><br/>We are not responsible for any problems with the site which are only revealed when installing the product</div>";
 
-$pdf->SetFont('helvetica', 'B', 10);
-$pdf->MultiCell($cell1Width, 7, 'Balance on completion 20%:', 0, 'R', false, 0, $cell1X, '', true, 0, false, true, 8, 'M', true);
-$pdf->SetFont('helvetica', '', 10);
-$pdf->MultiCell($cell2Width, 7, '$'.check_and_number_format($quoteData['paymentTerm3']), 0, 'R', false, 1, '', '', true, 0, false, true, 8, 'M', true);
+$pdf->SetAbsX(10);
+$pdf->MultiCell(95, 200, $tAndc, 0, 'L', 0, 0,'', '', true, 0, true, true, 500, 'T', false);
 
-$pdf->SetFont('helvetica', 'B', 10);
-$pdf->MultiCell(90, 5, "Notes", 0, 'L', false, 1, '', $notesY, true, 0, false, true, 8, 'M', true);
+$tAndc = "<div style=\"font-size:9px;line-height: 10px\"><b style=\"font-size:10px\">14. Retention of Title:</b><br/>Property in the product does not pass to you until it has been paid for in full, even if we have installed it. If you fail to make a due payment, we may enter the site and take reasonable action to remove the product without us being liable to you for damage to the site or the product caused by such removal.<br/><br/><b style=\"font-size:10px\">15. Installation Date:</b><br/>We require a minimum of 7 days notice to change an installation date. If we arrive on the arranged date and cannot commence or complete installation due tocircumstances out of our control, a call back fee of $120 will be automatically charged to your account, unless otherwise agreed. Additional freight/storage charges may also apply. If less than 48 hours notice is given restocking / holding fees mayapply.<br/><br/><b style=\"font-size:10px\">16. 25 Year Structural Domestic Warranty:</b><ul><li>This warranty covers hardwood timber for warping, buckling, delamination, twisting or other forms of structural deformation of any board within a residential floor as the result of a manufacturing fault or other forms of structural deformation under normal conditions provided that the product installation complies with Timber Flooring installation guidelines.Exposure to excessive moisture caused in any way whatsoever, (including flooding, wet mopping, spills, leaks, failure of seals or membranes, average daily relative humidity of above 75%) whether deliberate or accidental will void this warranty. </li><li>If hardwood timber is being installed above under-floor or sub-floor heating, the installation guidelines for such an application must be adhered to strictly. Failure to do so will void this warranty.</li></ul><br/><br/><b style=\"font-size:10px\">17. Important Features of Your Warranties</b><ul><li>All warranties are limited to the original purchaser and permanent resident; they cannot be transferred except in the case of purchase by a developer or builder of a new dwelling. A developer or builder may transfer to one owner only and this must take effect within 6 months following completion of the building works.</li><li>It is important that you follow the Timber Flooring care and maintenance instructions to care properly for your floor, as a failure to do so in part or whole will void this warranty.</li><li>As hardwood timber is a natural product, colour and texture will vary significantly according to climate, soil conditions and the age of the timber. The inherent beauty and natural variability of timber make it unlikely that hardwood flooring will match furniture, scotias and trims, or flooring manufactured from the same timber species.</li> <li>Hardwood is a natural product and will change colour as the timber ages and with exposure to sunlight. Such colour changes are normal and are not to be considered a defect.</li> <li>This warranty applies to normal residential situations only. Non residential applications such as commercial and retail sites are not covered by this warranty.</li> <li>Boards with visible faults or vastly different appearance prior to installation should not be installed.</li> <li>Damage to timber caused by heat or staining from any cause whatsoever is not covered by this warranty. Your floor should be protected from exposure to excessive heat caused by direct sunlight.</li> <li>Any area that receives replacement plank(s) must be cleared, at the consumer‟s expense, of any equipment, furnishings, partitions, etc., that have been installed or put into place over the plank(s) subsequent to the original installation.</li></ul><br/><br/><b style=\"font-size:10px\">18. Cleaning After Installation</b><br/>Our installation teams will tidy the site and clean the floor once the installation has been completed and prior to hand over, however we recommend that you arrange for your new flooring area to be professionally cleaned.<br/><br/><b style=\"font-size:10px\">19. Care and Duty</b><br/>We exercise all care, however we cannot be held responsible for any dust caused by sawing, cutting and grinding during the installation process or accidental damage to paint work, subfloor wiring cables (telephone, computer, alarm, coaxial etc.), or any under-floor pipe work.<br/><br/><b style=\"font-size:10px\">20. Your Copy of the contract</b><br/>You agree that you have received a copy of the signed contract.<br/><br/><b style=\"font-size:10px\">21. Care and Maintenance</b><br/>After your floor has been installed you may walk on it immediately. Some simple care and maintenance procedures will help prevent unnecessary wear and damage to your floor.<br/><br/>For instance, always place protective pads under furniture legs and doormats at entryways and never use abrasive brushes or ammonia based cleaners. It is also advisable to use no-slip rugs in high wear areas.</div>";
+$pdf->MultiCell(95, 200, $tAndc, 0, 'L', 0, 1,'', '', true, 0, true, true, 500, 'T', false);
 
-$pdf->SetFont('helvetica', '', 10);
-$notes = $quoteData['notes'];
-checkChinese($notes, $pdf);
-$pdf->setCellHeightRatio(1.8);
-
-$pdf->MultiCell(90, 12, $notes, 0, 'L', false, 0, '', '', true, 0, false, true, 70, 'T', true);
-$pdf->SetFont('helvetica', '', 10);
 
 $dest = "I";
 if(isset($_GET['download'])){
@@ -323,7 +285,7 @@ if(isset($_GET['download'])){
 }
 if (ob_get_contents()) ob_end_clean();
 //Close and output PDF document
-$pdf->Output('Quoate_'.$quoteData['quoteNumber'].'.pdf', $dest);
+$pdf->Output('Contract_'.$contractData['contractNumber'].'.pdf', $dest);
 
 //============================================================+
 // END OF FILE

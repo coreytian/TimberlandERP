@@ -108,12 +108,12 @@ switch($method){
          $query .= "(`contractNumber`, `quoteId`, `quoteNumber`,
          `contractor`, `contractorAddress`,`contractorPhone`,
          `clientName`,`clientMobile`,`clientPhone`,`clientAddress`,`clientEmail`,
-         `description`,`finalTotal`,`paymentTerm1`,`paymentTerm2`,`paymentTerm3`,
+         `description`,`finalTotal`,`payment1Text`,`payment2Text`,`payment3Text`,`paymentTerm1`,`paymentTerm2`,`paymentTerm3`,
          `startDate`,`endDate`,`sign1`,`sign2`,`sign1Date`,`sign2Date`,`createTime`)";
          $query .= " VALUES ('{$data['contractNumber']}', '{$data['quoteId']}', '{$data['quoteNumber']}',
          '{$data['contractor']}', '{$data['contractorAddress']}',  '{$data['contractorPhone']}',
          '{$data['clientName']}', '{$data['clientMobile']}', '{$data['clientPhone']}', '{$data['clientAddress']}', '{$data['clientEmail']}',
-         '{$data['description']}', '{$data['finalTotal']}', '{$data['paymentTerm1']}', '{$data['paymentTerm2']}', '{$data['paymentTerm3']}',
+         '{$data['description']}', '{$data['finalTotal']}', '{$data['payment1Text']}', '{$data['payment2Text']}', '{$data['payment3Text']}', '{$data['paymentTerm1']}', '{$data['paymentTerm2']}', '{$data['paymentTerm3']}',
          '{$data['startDate']}', '{$data['endDate']}', '{$data['sign1']}', '{$data['sign2']}','{$sign1Date}','{$sign2Date}','{$sDate}')";
 
          $result = $this->mysqli->query($query);
@@ -143,6 +143,9 @@ switch($method){
          $query .= "clientEmail='{$data['clientEmail']}',";
          $query .= "description='{$data['description']}',";
          $query .= "finalTotal='{$data['finalTotal']}',";
+         $query .= "payment1Text='{$data['payment1Text']}',";
+         $query .= "payment2Text='{$data['payment2Text']}',";
+         $query .= "payment3Text='{$data['payment3Text']}',";
          $query .= "paymentTerm1='{$data['paymentTerm1']}',";
          $query .= "paymentTerm2='{$data['paymentTerm2']}',";
          $query .= "paymentTerm3='{$data['paymentTerm3']}',";
